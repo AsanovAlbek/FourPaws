@@ -15,19 +15,16 @@ import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class HomePageViewModel @Inject constructor(
-    private val getAllPetsUseCase : GetAllPetsUseCase,
-) : ViewModel() {
+    private val getAllPetsUseCase : GetAllPetsUseCase
+    ) : ViewModel() {
+
     private val _allPets = MutableLiveData<List<Pet>>()
     val allPets : LiveData<List<Pet>> get() = _allPets
 
     fun getAllPets() {
         viewModelScope.launch {
-                withContext(Dispatchers.IO) {
-                    val pets = getAllPetsUseCase()
-                    withContext(Dispatchers.Main) {
-                        _allPets.value = pets
-                    }
-                }
+                val pets = getAllPetsUseCase()
+                _allPets.postValue(pets)
             }
     }
 }
