@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="epic.legofullstack.fourpaws.feature_home_page.FragmentHomePage"
+        android:name="epic.legofullstack.fourpaws.feature_home_page.presentation.FragmentHomePage"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home_page"/>
 
