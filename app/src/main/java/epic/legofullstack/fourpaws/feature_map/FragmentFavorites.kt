@@ -6,19 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import epic.legofullstack.fourpaws.R
-import epic.legofullstack.fourpaws.databinding.FragmentMapsBinding
+import epic.legofullstack.fourpaws.databinding.FragmentFavoritesBinding
 
-class FragmentSheltersMap : Fragment(R.layout.fragment_maps) {
+class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
 
-    private var _binding : FragmentMapsBinding? = null
+    private var _binding : FragmentFavoritesBinding? = null
     private val binding get() = _binding
 
-    override fun onCreateView(
+    override fun onCreateView (
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMapsBinding.inflate(layoutInflater)
+        _binding = FragmentFavoritesBinding.inflate(layoutInflater)
         return binding!!.root
     }
 

@@ -10,5 +10,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface PetsRepository {
     /** Получение всех питомцев */
-    suspend fun getAllPets() : Flow<PetDto>
+    suspend fun getAllPets() : List<PetDto>
 }

@@ -1,8 +1,6 @@
 package epic.legofullstack.fourpaws.feature_home_page.data.storage
 
 import epic.legofullstack.fourpaws.feature_home_page.data.model.PetDto
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 /**
  * Класс для работы с внутренним хранилищем данных
@@ -12,9 +10,7 @@ import kotlinx.coroutines.flow.flow
  */
 class LocalDataSource {
     /** Метод для получения фейковых данных в виде флоу */
-    suspend fun fakeDataFlow() : Flow<PetDto> = flow {
-        fakeList.forEach { emit(it) }
-    }
+    suspend fun fakeData() = fakeList
 
     // Какие то фейковые данные
     private val fakeList = listOf(

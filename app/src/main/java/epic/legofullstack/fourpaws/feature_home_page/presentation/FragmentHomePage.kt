@@ -5,20 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.FragmentHomePageBinding
-import epic.legofullstack.fourpaws.feature_home_page.data.repository.PetsRepositoryImpl
-import epic.legofullstack.fourpaws.feature_home_page.data.storage.LocalDataSource
-import epic.legofullstack.fourpaws.feature_home_page.domain.usecase.GetAllPetsUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.withContext
+import epic.legofullstack.fourpaws.feature_home_page.domain.model.Pet
 
+@AndroidEntryPoint
 class FragmentHomePage : Fragment(R.layout.fragment_home_page) {
 
     private var _binding : FragmentHomePageBinding? = null
     private val binding get() = _binding
+    private val homePageViewModel : HomePageViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,17 +25,17 @@ class FragmentHomePage : Fragment(R.layout.fragment_home_page) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomePageBinding.inflate(layoutInflater)
-
-        // Проверка на получение данныХ, потом уберу
-        val getAllPetsUseCase = GetAllPetsUseCase(PetsRepositoryImpl(LocalDataSource()))
-        lifecycleScope.launchWhenCreated {
-            withContext(Dispatchers.IO) {
-                val petsList = getAllPetsUseCase.invoke().toList().joinToString()
-                println(petsList)
-            }
-        }
-
+        observe()
+        homePageViewModel.getAllPets()
         return binding!!.root
+    }
+
+    private fun observe() {
+        homePageViewModel.allPets.observe(viewLifecycleOwner, ::setPets)
+    }
+
+    private fun setPets(pets : List<Pet>) {
+        pets.forEach { println(it) }
     }
 
     override fun onDestroyView() {
