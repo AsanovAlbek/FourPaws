@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="epic.legofullstack.fourpaws.feature_home_page.presentation.FragmentHomePage"
+        android:name="epic.legofullstack.fourpaws.feature.home.presentation.FragmentHomePage"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home_page"/>
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="epic.legofullstack.fourpaws.feature_favorites.presentation.FragmentFavorites"
+        android:name="epic.legofullstack.fourpaws.feature.favorites.presentation.FragmentFavorites"
         android:label="@string/title_favorite"
         tools:layout="@layout/fragment_favorites"/>
 
     <fragment
         android:id="@+id/navigation_facts"
-        android:name="epic.legofullstack.fourpaws.feature_interesting_facts.FragmentInterestingFacts"
+        android:name="epic.legofullstack.fourpaws.feature.facts.FragmentInterestingFacts"
         android:label="@string/title_interesting_facts"
         tools:layout="@layout/fragment_interesting_facts"/>
 </navigation>
