@@ -1,6 +1,8 @@
 package epic.legofullstack.fourpaws.application
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupNav()
+        setSupportActionBar(binding.mainToolbar)
     }
 
     private fun setupNav() {
@@ -39,7 +42,20 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_favorite, R.id.navigation_facts
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.filterMenuItem -> {}//(TODO открываем фильтр)
+            R.id.mapMenuItem -> {} //(TODO открываем города и приюты)
+        }
+        return true
     }
 }

@@ -3,4 +3,6 @@
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_interesting_facts">Interesting Facts</string>
+    <string name="shelters">Приюты</string>
+    <string name="filter">Фильтр</string>
 </resources>

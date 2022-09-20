@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="epic.legofullstack.fourpaws">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".application.FourPawsApp"
         android:allowBackup="true"
