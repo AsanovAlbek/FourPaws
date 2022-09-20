@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="epic.legofullstack.fourpaws.feature_home_page.FragmentHomePage"
+        android:name="epic.legofullstack.fourpaws.feature_home_page.presentation.FragmentHomePage"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home_page"/>
 
     <fragment
-        android:id="@+id/navigation_map"
-        android:name="epic.legofullstack.fourpaws.feature_map.FragmentSheltersMap"
-        android:label="@string/title_map"
-        tools:layout="@layout/fragment_maps"/>
+        android:id="@+id/navigation_favorite"
+        android:name="epic.legofullstack.fourpaws.feature_favorites.presentation.FragmentFavorites"
+        android:label="@string/title_favorite"
+        tools:layout="@layout/fragment_favorites"/>
 
     <fragment
         android:id="@+id/navigation_facts"
