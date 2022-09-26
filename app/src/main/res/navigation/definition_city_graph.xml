@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/definition_city_graph"
+    app:startDestination="@id/determinationLocationFragment">
+    <fragment
+        android:id="@+id/determinationLocationFragment"
+        android:name="epic.legofullstack.fourpaws.feature.location.presentation.DeterminationLocationFragment"
+        android:label="fragment_determination_location"
+        tools:layout="@layout/fragment_determination_location" />
+</navigation>

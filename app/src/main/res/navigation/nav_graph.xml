@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    tools:ignore="InvalidNavigation">
+
+
+    <fragment
+        android:id="@+id/mainFlow"
+        android:name="epic.legofullstack.fourpaws.application.fragments.MainFlow"
+        android:label="MainFlow"
+        tools:layout="@layout/flow_fragment_main" />
+    <fragment
+        android:id="@+id/definitionCityFlow"
+        android:name="epic.legofullstack.fourpaws.application.fragments.DefinitionCityFlow"
+        android:label="DefinitionCityFlow"
+        tools:layout="@layout/flow_fragment_determination_location"/>
+
+    <action
+        android:id="@+id/action_global_mainFlowFragment"
+        app:destination="@id/mainFlow"
+        app:popUpTo="@id/nav_graph" />
+    <action
+        android:id="@+id/action_global_definitionCityFlowFragment"
+        app:destination="@id/definitionCityFlow"
+        app:popUpTo="@id/nav_graph" />
+</navigation>

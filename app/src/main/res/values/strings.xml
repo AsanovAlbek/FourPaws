@@ -3,4 +3,14 @@
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_interesting_facts">Interesting Facts</string>
+    <string name="permission_rationale">Разрешение на местоположение, необходимое для работы приложения</string>
+
+    <!-- button name    -->
+    <string name="b_choose_city">Выбрать</string>
+
+    <!-- strings for layout   -->
+    <string name="init_your_citi">Ваш город</string>
+    <string name="OK">OK</string>
+    <string name="permission_denied_explanation">В разрешении было отказано. Но можно перейти в настройки</string>
+    <string name="settings">Настройки</string>
 </resources>
