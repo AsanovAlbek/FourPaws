@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/definition_city_graph"
+    app:startDestination="@id/nav_location_fragment">
+
+    <fragment
+        android:id="@+id/nav_location_fragment"
+        android:name="epic.legofullstack.fourpaws.feature.location.presentation.LocationFragment"
+        android:label="fragment_determination_location"
+        tools:layout="@layout/fragment_location" />
+</navigation>

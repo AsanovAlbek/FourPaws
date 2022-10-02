@@ -1,13 +1,10 @@
 package epic.legofullstack.fourpaws.application
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.ActivityMainBinding
@@ -16,30 +13,39 @@ import epic.legofullstack.fourpaws.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val navController by lazy {
-        Navigation.findNavController(this, R.id.nav_host_fragment_activity_main)
-    }
+    private lateinit var navController: NavController
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupNav()
+
+        viewModel.userCity.observe(this, ::handleStateCity)
     }
 
-    private fun setupNav() {
-        val navView: BottomNavigationView = binding.navView
+    private fun handleStateCity(city: String) {
+        setupNavigation(city)
+    }
+
+    private fun setupNavigation(userCity: String?) {
         val navHostFragment =
             supportFragmentManager
-                .findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        val navController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_favorite, R.id.navigation_facts
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+                .findFragmentById(R.id.nav_host_activity_main) as NavHostFragment
+        navController = navHostFragment.navController
+
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+
+        if (userCity == null) {
+            navGraph.setStartDestination(R.id.nav_location_main_fragment)
+        } else {
+            navGraph.setStartDestination(R.id.nav_main_fragment)
+        }
+        navController.graph = navGraph
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }
