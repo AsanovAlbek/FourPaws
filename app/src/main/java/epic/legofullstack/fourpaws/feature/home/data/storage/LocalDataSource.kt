@@ -14,10 +14,13 @@ class LocalDataSource {
 
     // Какие то фейковые данные
     private val fakeList = listOf(
-        PetDto(1, "Мурка", false),
-        PetDto(2, "Тузик"),
-        PetDto(3, "Мася"),
-        PetDto(4, "Рекс"),
-        PetDto(5, "Борис")
+        PetDto(1, "Мурка", city = "Москва"),
+        PetDto(2, "Тузик", city = "Нальчик"),
+        PetDto(3, "Мася", city = "Саратов"),
+        PetDto(4, "Рекс", city = "Ростов"),
+        PetDto(5, "Борис", city = "Краснодар"),
+        PetDto(6, "Симба", city = "Краснодар"),
+        PetDto(7, "Цезарь", city = "Краснодар"),
+        PetDto(8, "Граф", city = "Краснодар")
     )
 }
