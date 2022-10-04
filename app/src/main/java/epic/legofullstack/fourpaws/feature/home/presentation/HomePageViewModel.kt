@@ -5,14 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import epic.legofullstack.fourpaws.core.di.DispatchersModule
 import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetAllPetsUseCase
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class HomePageViewModel @Inject constructor(
-    private val getAllPetsUseCase : GetAllPetsUseCase
+    private val getAllPetsUseCase : GetAllPetsUseCase,
+    @DispatchersModule.MainDispatcher private val mainDispatcher: CoroutineDispatcher
     ) : ViewModel() {
 
     private val _allPets = MutableLiveData<List<Pet>>()
@@ -21,7 +25,9 @@ class HomePageViewModel @Inject constructor(
     fun getAllPets() {
         viewModelScope.launch {
                 val pets = getAllPetsUseCase()
-                _allPets.postValue(pets)
+                withContext(mainDispatcher) {
+                    _allPets.postValue(pets)
+                }
             }
     }
 }

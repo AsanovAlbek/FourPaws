@@ -4,14 +4,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import epic.legofullstack.fourpaws.core.di.DispatchersModule
 import epic.legofullstack.fourpaws.feature.favorites.domain.model.FavoritePet
 import epic.legofullstack.fourpaws.feature.favorites.domain.usecase.GetFavoritePetsUseCase
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val getFavoritePetsUseCase: GetFavoritePetsUseCase
+    private val getFavoritePetsUseCase: GetFavoritePetsUseCase,
+    @DispatchersModule.MainDispatcher private val mainDispatcher: CoroutineDispatcher
 ): ViewModel() {
 
     private val _favoritePets = MutableLiveData<List<FavoritePet>>()
@@ -20,7 +24,9 @@ class FavoritesViewModel @Inject constructor(
     fun getFavoritePets() {
         viewModelScope.launch {
             val pets = getFavoritePetsUseCase()
-            _favoritePets.postValue(pets)
+            withContext(mainDispatcher) {
+                _favoritePets.value = pets
+            }
         }
     }
 

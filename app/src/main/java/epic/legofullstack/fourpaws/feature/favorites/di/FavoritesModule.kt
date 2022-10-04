@@ -20,14 +20,10 @@ class FavoritesModule {
 
     @Provides
     @Singleton
-    fun provideFavoritesRepository(localDataSource: LocalDataSource) : FavoritesRepository =
+    fun provideFavoritesRepository(localDataSource: LocalDataSource): FavoritesRepository =
         FavoritesRepositoryImpl(localDataSource)
 
     @Provides
-    fun provideGetFavoriteUseCase(repository: FavoritesRepository) =
-        GetFavoritePetsUseCase(repository)
-
-    @Qualifier
-    @Retention
-    annotation class IoDispatcher
+    @Singleton
+    fun provideGetFavoritePetsUseCase(repository: FavoritesRepository) : GetFavoritePetsUseCase = GetFavoritePetsUseCase(repository)
 }
