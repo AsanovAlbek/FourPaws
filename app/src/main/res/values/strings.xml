@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">FourPaws</string>
+    <!-- fragments labels in navigation -->
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_interesting_facts">Interesting Facts</string>
@@ -13,4 +14,7 @@
     <string name="ok">OK</string>
     <string name="permission_denied_explanation">В разрешении было отказано. Но можно перейти в настройки</string>
     <string name="settings">Настройки</string>
+    <string name="shelters">Приюты</string>
+    <string name="filter">Фильтр</string>
+    <string name="home_nav_graph_label">DefinitionHomeFlow</string>
 </resources>
