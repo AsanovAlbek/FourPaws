@@ -1,5 +1,6 @@
 package epic.legofullstack.fourpaws.feature.home.domain.usecase
 
+import epic.legofullstack.fourpaws.core.di.DispatchersModule
 import epic.legofullstack.fourpaws.feature.home.data.mapper.toPet
 import epic.legofullstack.fourpaws.feature.home.di.HomePageModule
 import epic.legofullstack.fourpaws.feature.home.domain.repository.PetsRepository
@@ -14,7 +15,7 @@ import kotlinx.coroutines.withContext
  */
 class GetAllPetsUseCase(
     private val repository: PetsRepository,
-    @HomePageModule.IoDispatcher
+    @DispatchersModule.IoDispatcher
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
     suspend operator fun invoke() =
