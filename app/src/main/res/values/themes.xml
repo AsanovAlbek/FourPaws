@@ -13,4 +13,12 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="BlackCircleProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:layout_width">@dimen/error_icon_size</item>
+        <item name="android:layout_height">@dimen/error_icon_size</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateTintMode">src_atop</item>
+        <item name="android:indeterminateTint">@color/black</item>
+    </style>
 </resources>

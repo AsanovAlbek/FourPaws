@@ -10,7 +10,7 @@ import epic.legofullstack.fourpaws.databinding.ItemPetCardBinding
 import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 
 class HomePagePetListAdapter(
-    private val pets : List<Pet>
+    private val pets : MutableList<Pet>
 ): RecyclerView.Adapter<HomePagePetListAdapter.HomePageViewHolder>() {
 
     inner class HomePageViewHolder(
@@ -35,4 +35,9 @@ class HomePagePetListAdapter(
     }
 
     override fun getItemCount() = pets.size
+
+    fun refreshPets(newPets : List<Pet>) {
+        pets.clear()
+        pets.addAll(newPets)
+    }
 }
