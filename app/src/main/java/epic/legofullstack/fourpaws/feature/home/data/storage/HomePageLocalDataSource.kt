@@ -8,9 +8,9 @@ import epic.legofullstack.fourpaws.feature.home.data.model.PetDto
  *
  * @author Asanov Albek in 16.09.2022
  */
-class LocalDataSource {
+class HomePageLocalDataSource {
     /** Метод для получения фейковых данных в виде флоу */
-    suspend fun fakeData() = fakeList
+    suspend fun fakeData() : List<PetDto> = fakeList
 
     // Какие то фейковые данные
     private val fakeList = listOf(
