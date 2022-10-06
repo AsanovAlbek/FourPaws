@@ -2,7 +2,7 @@ package epic.legofullstack.fourpaws.feature.favorites.data.storage
 
 import epic.legofullstack.fourpaws.feature.favorites.data.model.FavoritePetDto
 
-class LocalDataSource {
+class FavoriteLocalDataSource {
     suspend fun favoritePets() = fakeFavoriteList
 
     private val fakeFavoriteList = listOf(

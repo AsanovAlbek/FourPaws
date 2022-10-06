@@ -5,11 +5,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import epic.legofullstack.fourpaws.feature.home.data.repository.PetsRepositoryImpl
-import epic.legofullstack.fourpaws.feature.home.data.storage.LocalDataSource
+import epic.legofullstack.fourpaws.feature.home.data.storage.HomePageLocalDataSource
 import epic.legofullstack.fourpaws.feature.home.domain.repository.PetsRepository
 import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetAllPetsUseCase
 import javax.inject.Singleton
-import kotlinx.coroutines.CoroutineDispatcher
 
 
 @Module
@@ -17,12 +16,12 @@ import kotlinx.coroutines.CoroutineDispatcher
 object HomePageModule {
     @Provides
     @Singleton
-    fun providePetsRepository(localDataSource: LocalDataSource) : PetsRepository =
+    fun providePetsRepository(localDataSource: HomePageLocalDataSource) : PetsRepository =
         PetsRepositoryImpl(localDataSource)
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(): LocalDataSource = LocalDataSource()
+    fun provideHomePageLocalDataSource(): HomePageLocalDataSource = HomePageLocalDataSource()
 
     @Provides
     fun provideGetAllPetsUseCase(petsRepository: PetsRepository) : GetAllPetsUseCase =
