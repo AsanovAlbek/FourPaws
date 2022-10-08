@@ -1,8 +1,10 @@
 package epic.legofullstack.fourpaws.feature.home.domain.usecase
 
 import epic.legofullstack.fourpaws.core.di.DispatchersModule
+import epic.legofullstack.fourpaws.network.errorhandle.ResponseState
+import epic.legofullstack.fourpaws.network.errorhandle.safeCall
 import epic.legofullstack.fourpaws.feature.home.data.mapper.toPet
-import epic.legofullstack.fourpaws.feature.home.di.HomePageModule
+import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 import epic.legofullstack.fourpaws.feature.home.domain.repository.PetsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +20,7 @@ class GetAllPetsUseCase(
     @DispatchersModule.IoDispatcher
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
-    suspend operator fun invoke() =
-        withContext(ioDispatcher) {
-            return@withContext repository.getAllPets().map { it.toPet() }
+    suspend operator fun invoke() : ResponseState<List<Pet>> = withContext(ioDispatcher) {
+            return@withContext safeCall { repository.getAllPets().map { it.toPet() } }
         }
 }

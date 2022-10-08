@@ -17,4 +17,6 @@
     <string name="shelters">Приюты</string>
     <string name="filter">Фильтр</string>
     <string name="home_nav_graph_label">DefinitionHomeFlow</string>
+    <string name="network_error">Нет подключения к интернету</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>
