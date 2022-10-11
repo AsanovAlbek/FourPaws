@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import epic.legofullstack.fourpaws.core.di.DispatchersModule
+import epic.legofullstack.fourpaws.core.domain.model.Area
 import epic.legofullstack.fourpaws.core.domain.usecase.PreferenceDataStoreUseCase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,19 +15,20 @@ import kotlinx.coroutines.CoroutineDispatcher
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val preferenceGlobal: PreferenceDataStoreUseCase,
+    private val areaStorage: PreferenceDataStoreUseCase,
     @DispatchersModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _userCity = MutableLiveData<String>()
-    val userCity: LiveData<String> get() = _userCity
+    private val _userArea = MutableLiveData<Area>()
+    val state: LiveData<Area> get() = _userArea
 
+    // todo обработать ошибку
     init {
         viewModelScope.launch {
-            preferenceGlobal.getUserCity()
+            areaStorage.getUserArea()
                 .flowOn(ioDispatcher)
                 .collect {
-                    _userCity.postValue(it)
+                    _userArea.postValue(it)
                 }
         }
     }
