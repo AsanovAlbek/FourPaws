@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
+import epic.legofullstack.fourpaws.core.domain.model.Area
 import epic.legofullstack.fourpaws.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
@@ -22,14 +23,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.userCity.observe(this, ::handleStateCity)
+        viewModel.state.observe(this, ::handleStateCity)
     }
 
-    private fun handleStateCity(city: String) {
-        setupNavigation(city)
+    private fun handleStateCity(area: Area) {
+        setupNavigation(area)
     }
 
-    private fun setupNavigation(userCity: String?) {
+    private fun setupNavigation(userArea: Area) {
         val navHostFragment =
             supportFragmentManager
                 .findFragmentById(R.id.nav_host_activity_main) as NavHostFragment
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
 
-        if (userCity == null) {
+        if (userArea.id == USER_AREA_DEFAULT) {
             navGraph.setStartDestination(R.id.nav_location_main_fragment)
         } else {
             navGraph.setStartDestination(R.id.nav_main_fragment)
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "MainActivity"
+        private const val TAG = "MainActivity-FP"
+        private const val USER_AREA_DEFAULT = 0
     }
 }

@@ -1,4 +1,4 @@
-package epic.legofullstack.fourpaws.feature.home.presentation.dto
+package epic.legofullstack.fourpaws.core.presentation.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

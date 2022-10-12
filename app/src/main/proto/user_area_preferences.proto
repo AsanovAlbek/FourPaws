@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "epic.legofullstack.fourpaws";
+option java_multiple_files = true;
+
+message UserAreaPreferences {
+  int32 id = 1;
+  string title = 2;
+}
