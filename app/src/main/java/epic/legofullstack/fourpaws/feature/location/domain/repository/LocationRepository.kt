@@ -15,16 +15,14 @@ class LocationRepository @Inject constructor(
     @DispatchersModule.IoDispatcher
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    suspend fun getArea() : String? {
-        var area: String? = null
+    suspend fun getArea() : String? =
         withContext(ioDispatcher) {
             val lastLocation = locationHandler.getLastLocation()
             if (lastLocation != null) {
-                area = geocoderHandler.getAddressByGeoLocation(location = lastLocation)?.first()?.subAdminArea
+                 geocoderHandler.getAddressByGeoLocation(location = lastLocation)?.first()?.subAdminArea
             } else {
-                area = geocoderHandler.getAddressByGeoLocation(locationHandler.getCurrentLocation())?.filterNotNull()?.first()?.subAdminArea
+                geocoderHandler.getAddressByGeoLocation(locationHandler.getCurrentLocation())?.filterNotNull()?.first()?.subAdminArea
             }
         }
-        return area
-    }
+
 }

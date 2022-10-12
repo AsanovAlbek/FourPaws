@@ -1,7 +1,7 @@
 package epic.legofullstack.fourpaws.feature.home.presentation
 
 import epic.legofullstack.fourpaws.R
-import epic.legofullstack.fourpaws.feature.home.presentation.dto.ErrorModel
+import epic.legofullstack.fourpaws.core.presentation.model.ErrorModel
 
 fun Boolean.parseError(): ErrorModel =
     if (this){
