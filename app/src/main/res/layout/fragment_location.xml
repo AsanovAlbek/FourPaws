@@ -6,45 +6,78 @@
     android:layout_height="match_parent"
     tools:context=".feature.location.presentation.LocationFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <include
+        android:id="@+id/locationErrorPanel"
+        layout="@layout/error_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/init_your_citi"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/loadingProgress"
+        style="@style/BlackCircleProgressBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
 
-    <Spinner
-        android:id="@+id/sp_cities"
-        android:layout_width="229dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        />
 
-    <Button
-        android:id="@+id/b_choose_city"
-        android:layout_width="157dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="40dp"
-        android:enabled="false"
-        android:text="@string/choose_city_title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:id="@+id/choose_area_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
 
-    <TextView
-        android:id="@+id/tv_city"
-        android:layout_width="146dp"
-        android:layout_height="37dp"
-        android:layout_gravity="center"
-        android:text="City"
-        app:layout_constraintBottom_toTopOf="@+id/b_choose_city"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sp_cities" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="@string/location_description"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView_user_area"
+                android:layout_width="304dp"
+                android:layout_height="65dp"
+                android:layout_weight="1"
+                android:completionThreshold="4"
+                android:hint="@string/region" />
+
+            <ImageButton
+                android:id="@+id/button_init_location"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_weight="0"
+                android:src="@drawable/img_location" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_choose_area"
+            android:layout_width="250dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
+            android:enabled="false"
+            android:text="@string/choose_area_title" />
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
