@@ -12,4 +12,6 @@ class UserAreaDataStoreRepository(
     suspend fun saveUserArea(area: AreaDto) = userAreaPreferenceDataStore.saveUserArea(area)
 
     fun getUserArea(): Flow<UserAreaPreferences> = userAreaPreferenceDataStore.getUserArea()
+
+    suspend fun removeUserArea() = userAreaPreferenceDataStore.removeUserArea()
 }

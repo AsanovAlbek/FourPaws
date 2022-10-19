@@ -21,4 +21,10 @@ class UserAreaPreferenceDataStore(
             .setTitle(area.title)
             .build()
     }
+
+    suspend fun removeUserArea() = userAreaDataStore.updateData {
+        it.toBuilder()
+            .clear()
+            .build()
+    }
 }

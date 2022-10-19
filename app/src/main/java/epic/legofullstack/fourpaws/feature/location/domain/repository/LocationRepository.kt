@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-// todo обработка ошибок
 class LocationRepository @Inject constructor(
     private val locationHandler: LocationHandler,
     private val geocoderHandler: GeocoderHandler,

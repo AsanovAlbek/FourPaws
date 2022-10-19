@@ -112,7 +112,7 @@ class LocationViewModel @Inject constructor(
             withContext(ioDispatcher) {
                 when (val result = preferenceDataStore.saveUserArea(chosenArea)) {
                     is ResponseState.Success -> handleSaveArea(navController)
-                    is ResponseState.Error -> handleError(result.isNetworkError) //showErrorDialog(resourcesProvider.getString(R.string.location_error_text))
+                    is ResponseState.Error -> handleError(result.isNetworkError)
                 }
             }
         }
