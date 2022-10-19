@@ -4,19 +4,27 @@
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_interesting_facts">Interesting Facts</string>
-    <string name="permission_rationale">Разрешение на местоположение, необходимое для работы приложения</string>
 
     <!-- button name    -->
-    <string name="choose_city_title">Выбрать</string>
+    <string name="choose_area_title">Выбрать</string>
 
     <!-- strings for layout   -->
-    <string name="init_your_citi">Ваш город</string>
+    <string name="region">Регион</string>
+    <string name="cancel">Отмена</string>
     <string name="ok">OK</string>
-    <string name="permission_denied_explanation">В разрешении было отказано. Но можно перейти в настройки</string>
+    <string name="permission_denied_explanation">Если вы отклоните разрешение, мы не сможем определить Ваше местоположение.\n\n Пожалуйста  перейдите в [Настройки] > [Разрешения]</string>
+    <string name="permission_denied_title">Разрешения были отклонены</string>
+    <string name="permission_title">Требуются разрешения</string>
+    <string name="permission_gps_text">Необходимо разрешение на определение вашего местоположения</string>
+    <string name="permission_error_text">Не удалось определить Ваше местоположение. Пожалйста выберите регион из списка</string>
     <string name="settings">Настройки</string>
     <string name="shelters">Приюты</string>
     <string name="filter">Фильтр</string>
     <string name="home_nav_graph_label">DefinitionHomeFlow</string>
     <string name="network_error">Нет подключения к интернету</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="error">Ошибка</string>
+    <string name="location_error_text">Не удалось сохранить выбранный регион, попробуйте еще раз</string>
+    <string name="location_description">Выберите регион для поиска \nВашего питомца</string>
+
 </resources>

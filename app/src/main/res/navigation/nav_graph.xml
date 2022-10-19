@@ -18,11 +18,12 @@
         tools:layout="@layout/fragment_location_main"/>
 
     <action
-        android:id="@+id/action_global_mainFlowFragment"
+        android:id="@+id/action_global_main_fragment"
         app:destination="@id/nav_main_fragment"
-        app:popUpTo="@id/nav_graph" />
+        app:popUpTo="@id/nav_graph" >
+    </action>
     <action
-        android:id="@+id/action_global_definitionCityFlowFragment"
+        android:id="@+id/action_global_location_fragment"
         app:destination="@id/nav_location_main_fragment"
         app:popUpTo="@id/nav_graph" />
 </navigation>
