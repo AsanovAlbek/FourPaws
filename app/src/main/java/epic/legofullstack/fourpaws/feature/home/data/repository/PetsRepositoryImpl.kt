@@ -12,6 +12,5 @@ import epic.legofullstack.fourpaws.feature.home.domain.repository.PetsRepository
  * @author Asanov Albek in 16.09.2022
  */
 class PetsRepositoryImpl(private val localDataSource: HomePageLocalDataSource) : PetsRepository {
-    override suspend fun getAllPets() : List<PetDto> =
-        localDataSource.fakeData()
+    override suspend fun getAllPets() : List<PetDto> = localDataSource.fakeData()
 }
