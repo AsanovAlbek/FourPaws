@@ -26,5 +26,4 @@ object HomePageModule {
     @Provides
     fun provideGetAllPetsUseCase(petsRepository: PetsRepository) : GetAllPetsUseCase =
         GetAllPetsUseCase(petsRepository)
-
 }

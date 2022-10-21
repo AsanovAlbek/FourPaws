@@ -13,4 +13,6 @@ import epic.legofullstack.fourpaws.feature.home.domain.repository.PetsRepository
  */
 class PetsRepositoryImpl(private val localDataSource: HomePageLocalDataSource) : PetsRepository {
     override suspend fun getAllPets() : List<PetDto> = localDataSource.fakeData()
+    override suspend fun getPetById(id: Int): PetDto = localDataSource.fakeData()
+            .first { petDto -> petDto.petId == id }
 }

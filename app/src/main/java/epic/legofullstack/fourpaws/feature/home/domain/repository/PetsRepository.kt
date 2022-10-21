@@ -10,4 +10,7 @@ import epic.legofullstack.fourpaws.feature.home.data.model.PetDto
 interface PetsRepository {
     /** Получение всех питомцев */
     suspend fun getAllPets() : List<PetDto>
+
+    /** Получение питомца по id */
+    suspend fun getPetById(id: Int) : PetDto
 }
