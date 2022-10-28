@@ -23,9 +23,23 @@
 
     <fragment
         android:id="@+id/navigation_facts"
-        android:name="epic.legofullstack.fourpaws.feature.facts.FragmentInterestingFacts"
+        android:name="epic.legofullstack.fourpaws.feature.facts.presentation.InterestingFactsFragment"
         android:label="@string/title_interesting_facts"
-        tools:layout="@layout/fragment_interesting_facts"/>
+        tools:layout="@layout/fragment_interesting_facts">
+    <action
+        android:id="@+id/action_navigation_facts_to_fact_detail"
+        app:destination="@id/factDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/factDetailFragment"
+        android:name="epic.legofullstack.fourpaws.feature.facts.presentation.detail.FactDetailFragment"
+        android:label="FactDetailFragment" >
+        <argument
+            android:name="factId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 
     <fragment
         android:id="@+id/mapMenuItem"
