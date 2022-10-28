@@ -1,14 +1,17 @@
 package epic.legofullstack.fourpaws.feature.home.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import epic.legofullstack.fourpaws.core.di.DispatchersModule
+import epic.legofullstack.fourpaws.feature.base.BaseViewModel
 import epic.legofullstack.fourpaws.network.errorhandle.ResponseState
 import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetAllPetsUseCase
+import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetPetByIdUseCase
 import epic.legofullstack.fourpaws.feature.home.presentation.dto.UiState
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,9 +21,10 @@ import kotlinx.coroutines.withContext
 @HiltViewModel
 class HomePageViewModel @Inject constructor(
     private val getAllPetsUseCase : GetAllPetsUseCase,
+    private val getPetByIdUseCase: GetPetByIdUseCase,
     @DispatchersModule.MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     @DispatchersModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher
-    ) : ViewModel() {
+    ) : BaseViewModel() {
 
     private val content = MutableLiveData<UiState>()
     val state : LiveData<UiState> get() = content
@@ -49,5 +53,23 @@ class HomePageViewModel @Inject constructor(
         }
     }
 
+    fun clickToPet(petId: Int, navController: NavController) {
+        viewModelScope.launch {
+            withContext(ioDispatcher) {
+                when(val response = getPetByIdUseCase(petId)) {
+                    is ResponseState.Success -> openPetDetails(petId, navController)
+                    is ResponseState.Error -> connectedLostSnackBar(response.isNetworkError)
+                }
+            }
+        }
+    }
+
+    private fun connectedLostSnackBar(networkError: Boolean) {
+        // todo уведомление о том, что соединение потеряно
+    }
+
+    private fun openPetDetails(petId: Int, navController: NavController) {
+        // todo передача выбранного id в аргументы будущего details и переход к нему
+    }
 
 }

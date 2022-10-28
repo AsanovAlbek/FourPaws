@@ -10,15 +10,19 @@ import epic.legofullstack.fourpaws.databinding.ItemPetCardBinding
 import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 
 class HomePagePetListAdapter(
-    private val pets : MutableList<Pet>
+    private val pets : MutableList<Pet>,
+    private val itemClickEvent: ((Int) -> Unit)
 ): RecyclerView.Adapter<HomePagePetListAdapter.HomePageViewHolder>() {
 
     inner class HomePageViewHolder(
         private val binding: ItemPetCardBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(pet : Pet) {
-            binding.city.cityName.text = pet.city
-            binding.petName.text = pet.name
+            binding.apply {
+                city.cityName.text = pet.city
+                petName.text = pet.name
+                petCard.setOnClickListener { itemClickEvent.invoke(pet.id) }
+            }
         }
     }
 
