@@ -11,8 +11,8 @@ data class ShelterDto(
     val area: Area,
     val phone: String,
     val email: String?,
-    val longitude: Float?,
-    val latitude: Float?
+    val longitude: Float,
+    val latitude: Float
 ) : RemoteDto<Shelter> {
     override fun toDomain(): Shelter = Shelter(
         id = this.id,

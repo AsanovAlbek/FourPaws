@@ -32,3 +32,8 @@ data class OpenFragment(
     @IdRes val actionId: Int? = null,
     val directions: NavDirections? = null
 ) : ViewCommand
+
+data class StartActivityForMap(
+    val longitude: Float,
+    val latitude: Float
+) : ViewCommand
