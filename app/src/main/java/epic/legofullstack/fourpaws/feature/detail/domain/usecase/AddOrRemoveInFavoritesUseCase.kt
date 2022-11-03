@@ -15,10 +15,10 @@ class AddOrRemoveInFavoritesUseCase @Inject constructor(
     @DispatchersModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     suspend fun addPetToFavorites(pet: Pet) = withContext(ioDispatcher) {
-        return@withContext safeCall { repository.addToFavorite(pet.toPetDto()).toPet() }
+        return@withContext safeCall { repository.addToFavorite(pet.toPetDto()) }
     }
 
     suspend fun removePetToFavorites(pet: Pet) = withContext(ioDispatcher) {
-        return@withContext safeCall { repository.removePetFromFavorite(pet.toPetDto()).toPet() }
+        return@withContext safeCall { repository.removePetFromFavorite(pet.toPetDto()) }
     }
 }
