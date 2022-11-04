@@ -4,6 +4,6 @@ data class Shelter(
     val id: Int,
     val name: String,
     val address: String,
-    val longitude: Float?,
-    val latitude: Float?
+    val longitude: Float,
+    val latitude: Float
 )
