@@ -21,7 +21,7 @@ class DeeplinkUseCase @Inject constructor(
     }
 
     suspend fun sendMailToShelter(shelter: Shelter) = withContext(ioDispatcher) {
-        return@withContext safeCall { repository.call(shelter.toShelterDto()) }
+        return@withContext safeCall { repository.sendMale(shelter.toShelterDto()) }
     }
 
     suspend fun sharePetInSocial(pet: Pet) = withContext(ioDispatcher) {

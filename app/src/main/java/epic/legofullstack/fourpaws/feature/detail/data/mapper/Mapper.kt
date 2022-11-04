@@ -7,7 +7,7 @@ import epic.legofullstack.fourpaws.feature.detail.domain.model.Shelter
 
 fun PetDto.toPet() = Pet(
     petId = petId,
-    shelter = shelter,
+    shelter = shelter.toShelter(),
     name = name,
     isFavorite = isFavorite,
     city = city
@@ -24,7 +24,7 @@ fun ShelterDto.toShelter() = Shelter(
 
 fun Pet.toPetDto() = PetDto(
     petId = petId,
-    shelter = shelter,
+    shelter = shelter.toShelterDto(),
     name = name,
     isFavorite = isFavorite,
     city = city

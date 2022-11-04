@@ -1,22 +1,43 @@
 package epic.legofullstack.fourpaws.feature.detail.data.repository
 
 import android.util.Log
+import epic.legofullstack.fourpaws.feature.detail.data.local.DetailsLocalDataSource
 import epic.legofullstack.fourpaws.feature.detail.data.model.PetDto
 import epic.legofullstack.fourpaws.feature.detail.data.model.ShelterDto
 import epic.legofullstack.fourpaws.feature.detail.domain.model.Shelter
 import epic.legofullstack.fourpaws.feature.detail.domain.repository.DetailsRepository
+import java.net.SocketException
 
-class DetailsRepositoryImpl: DetailsRepository {
+class DetailsRepositoryImpl(
+    private val local: DetailsLocalDataSource
+): DetailsRepository {
+    override suspend fun findPetById(id: Int): PetDto {
+        return local.fakePets().first { petDto -> petDto.petId == id }
+    }
+
+
     /** Добавление [pet] во вкладку "Избранное" */
-    override suspend fun addToFavorite(pet: PetDto): PetDto
-    {
-        Log.i("detail", "${pet.name} добавлен в избранное")
-        return pet.addToFavorites()
+    override suspend fun addToFavorite(pet: PetDto) {
+        local.fakePets().toMutableList().apply {
+            // Находим индекс элемента, если такого элемента нет в списке, то добавляем в конец
+            val petIndex = indexOf(pet)
+            if (petIndex != -1) {
+                removeAt(petIndex)
+                add(petIndex, pet.addToFavorites())
+            }
+        }
     }
 
     /** Удаление [pet] из вкладки "Избранное" */
-    override suspend fun removePetFromFavorite(pet: PetDto): PetDto {
-        return pet.removeToFavorites()
+    override suspend fun removePetFromFavorite(pet: PetDto) {
+        local.fakePets().toMutableList().apply {
+            // Находим индекс элемента, если такого элемента нет в списке, то добавляем в конец
+            val petIndex = indexOf(pet)
+            if (petIndex != -1) {
+                remove(pet)
+                add(petIndex, pet.removeToFavorites())
+            }
+        }
     }
 
     /** Звонок в приют */
