@@ -29,6 +29,7 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
 
     private fun observe() {
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
+        viewModel.commands.observe(viewLifecycleOwner, ::handleCommand)
     }
 
     private fun clickListeners(pet: Pet) {

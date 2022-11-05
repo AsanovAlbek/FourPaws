@@ -7,9 +7,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.lifecycle.HiltViewModel
+import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.core.di.DispatchersModule
+import epic.legofullstack.fourpaws.core.presentation.ResourcesProvider
 import epic.legofullstack.fourpaws.extensions.navigateSafely
 import epic.legofullstack.fourpaws.feature.base.BaseViewModel
+import epic.legofullstack.fourpaws.feature.base.OpenFragment
+import epic.legofullstack.fourpaws.feature.base.ShowSnackbar
 import epic.legofullstack.fourpaws.network.errorhandle.ResponseState
 import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetAllPetsUseCase
@@ -25,7 +29,8 @@ class HomePageViewModel @Inject constructor(
     private val getAllPetsUseCase : GetAllPetsUseCase,
     private val getPetByIdUseCase: GetPetByIdUseCase,
     @DispatchersModule.MainDispatcher private val mainDispatcher: CoroutineDispatcher,
-    @DispatchersModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @DispatchersModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val provider: ResourcesProvider
     ) : BaseViewModel() {
 
     private val content = MutableLiveData<UiState>()
@@ -55,23 +60,27 @@ class HomePageViewModel @Inject constructor(
         }
     }
 
-    fun clickToPet(petId: Int, navController: NavController) {
+    fun clickToPet(petId: Int) {
         viewModelScope.launch {
             withContext(ioDispatcher) {
                 when(val response = getPetByIdUseCase(petId)) {
-                    is ResponseState.Success -> openPetDetails(petId, navController)
+                    is ResponseState.Success -> openPetDetails(petId)
                     is ResponseState.Error -> connectedLostSnackBar(response.isNetworkError)
                 }
             }
         }
     }
 
-    private suspend fun connectedLostSnackBar(networkError: Boolean) { Log.i("homevm","resp error") }
+    private suspend fun connectedLostSnackBar(networkError: Boolean) { 
+        commands.value = ShowSnackbar(
+            text = provider.getString(R.string.no_internet_message)
+        )
+    }
 
-    private suspend fun openPetDetails(petId: Int, navController: NavController) {
+    private suspend fun openPetDetails(petId: Int) {
         withContext(mainDispatcher) {
             val action = FragmentHomePageDirections.actionNavigationHomeToNavigationDetail(petId)
-            navController.navigateSafely(action)
+            commands.value = OpenFragment(directions = action)
         }
     }
 

@@ -10,8 +10,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.FragmentHomePageBinding
-import epic.legofullstack.fourpaws.extensions.activityNavController
-import epic.legofullstack.fourpaws.extensions.fragmentNavController
 import epic.legofullstack.fourpaws.feature.base.BaseFragment
 import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 import epic.legofullstack.fourpaws.feature.home.presentation.adapter.HomePagePetListAdapter
@@ -31,6 +29,7 @@ class FragmentHomePage : BaseFragment(R.layout.fragment_home_page) {
 
     private fun observe() {
         homePageViewModel.state.observe(viewLifecycleOwner, ::handleState)
+        homePageViewModel.commands.observe(viewLifecycleOwner, ::handleCommand)
     }
 
     private fun handleState(uiState: UiState) {
@@ -72,6 +71,6 @@ class FragmentHomePage : BaseFragment(R.layout.fragment_home_page) {
     }
 
     private fun openDetails(id: Int) {
-        homePageViewModel.clickToPet(petId = id, navController = fragmentNavController())
+        homePageViewModel.clickToPet(petId = id)
     }
 }
