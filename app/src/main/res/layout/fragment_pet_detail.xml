@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    android:id="@+id/detailContent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_smoke"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="120dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/starButton"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_star_22"
+            app:iconSize="40dp"
+            app:iconTint="@color/star_button"
+            app:layout_constraintBottom_toTopOf="@+id/sharedPostButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.692"
+            app:layout_constraintStart_toEndOf="@+id/petNameAndAgeText"
+            app:layout_constraintTop_toBottomOf="@+id/petPhotosViewPager"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/petPhotosViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:id="@+id/petNameAndAgeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Мурка, 1 год"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/petPhotosViewPager" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/callButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Позвонить"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@+id/sendEmailButton"
+            app:layout_constraintEnd_toStartOf="@+id/sendEmailButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/petNameAndAgeText"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/white"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sendEmailButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Написать"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/petNameAndAgeText"
+            app:layout_constraintStart_toStartOf="@+id/petNameAndAgeText"
+            app:layout_constraintTop_toBottomOf="@+id/petNameAndAgeText"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sharedPostButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Поделиться"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/white"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@+id/sendEmailButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sendEmailButton"
+            app:layout_constraintTop_toBottomOf="@+id/petNameAndAgeText"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/addressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Москва, ул. Московская, д. 7"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/sharedPostButton"
+            app:layout_constraintStart_toStartOf="@+id/callButton"
+            app:layout_constraintTop_toBottomOf="@id/sendEmailButton" />
+
+        <TextView
+            android:id="@+id/shelterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Приют 'Котопёс' "
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/sharedPostButton"
+            app:layout_constraintStart_toStartOf="@+id/callButton"
+            app:layout_constraintTop_toBottomOf="@id/addressText"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/primaryParamsColumn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginEnd="56dp"
+            app:cardCornerRadius="@dimen/margin_8"
+            app:layout_constraintEnd_toEndOf="@+id/sharedPostButton"
+            app:layout_constraintStart_toStartOf="@+id/callButton"
+            app:layout_constraintTop_toBottomOf="@+id/shelterText"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp"
+            app:contentPadding="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Пол"
+                    android:layout_marginBottom="@dimen/margin_8"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Порода"
+                    android:layout_marginBottom="@dimen/margin_8"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Окрас"
+                    android:layout_marginBottom="@dimen/margin_8"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Вес"
+                    android:layout_marginBottom="@dimen/margin_8"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Рост"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="100dp">
+
+                <TextView
+                    android:id="@+id/maleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Девочка"
+                    android:layout_marginBottom="@dimen/margin_8"/>
+
+                <TextView
+                    android:id="@+id/breedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Шотландская вислоухая"
+                    android:layout_marginBottom="@dimen/margin_8"/>
+
+                <TextView
+                    android:id="@+id/colorText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Серый"
+                    android:layout_marginBottom="@dimen/margin_8"/>
+
+                <TextView
+                    android:id="@+id/petWeightText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4 кг"
+                    android:layout_marginBottom="@dimen/margin_8"/>
+
+                <TextView
+                    android:id="@+id/petLengthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50 см"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/secondaryParams"
+            android:layout_width="match_parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/primaryParamsColumn"
+            app:layout_constraintStart_toStartOf="@+id/primaryParamsColumn"
+            app:layout_constraintTop_toBottomOf="@+id/primaryParamsColumn">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Привита"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Стерилизована"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Приучена к лотку"/>
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/secondaryParams"
+            app:layout_constraintStart_toStartOf="@+id/secondaryParams"
+            app:layout_constraintTop_toBottomOf="@id/secondaryParams"
+            android:layout_marginTop="16dp"
+            app:contentPadding="16dp"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:id="@+id/summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Длииииииииииииииииииииииииииииннный Текст\nПрям ооооооооооооооооооооочень" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
