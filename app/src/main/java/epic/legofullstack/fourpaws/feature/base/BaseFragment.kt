@@ -1,5 +1,7 @@
 package epic.legofullstack.fourpaws.feature.base
 
+import android.os.Bundle
+import android.view.View
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
@@ -9,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import epic.legofullstack.fourpaws.extensions.fragmentNavController
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.extensions.navigateSafely
 
@@ -28,10 +31,11 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
     }
 
     private fun goToFragment(command: OpenFragment) {
+        val currentNavController = command.navController ?: fragmentNavController()
         if (command.actionId != null) {
-            command.navController.navigateSafely(command.actionId)
+            currentNavController.navigateSafely(command.actionId)
         } else {
-            command.directions?.let { command.navController.navigateSafely(it) }
+            command.directions?.let { currentNavController.navigateSafely(it) }
         }
     }
 

@@ -2,6 +2,7 @@ package epic.legofullstack.fourpaws.feature.base
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.google.android.material.snackbar.Snackbar
@@ -28,7 +29,7 @@ data class ShowSnackbar(
 ) : ViewCommand
 
 data class OpenFragment(
-    val navController: NavController,
+    val navController: NavController? = null,
     @IdRes val actionId: Int? = null,
     val directions: NavDirections? = null
 ) : ViewCommand
