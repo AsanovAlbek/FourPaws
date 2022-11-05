@@ -1,44 +1,31 @@
 package epic.legofullstack.fourpaws.feature.favorites.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.FragmentFavoritesBinding
-import epic.legofullstack.fourpaws.feature.favorites.domain.model.FavoritePet
+import epic.legofullstack.fourpaws.feature.base.BaseFragment
+import epic.legofullstack.fourpaws.feature.favorites.presentation.model.UiState
 
 @AndroidEntryPoint
-class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
+class FragmentFavorites : BaseFragment(R.layout.fragment_favorites) {
 
-    private var _binding : FragmentFavoritesBinding? = null
-    private val binding get() = _binding
+    private val favoritesBinding by viewBinding(FragmentFavoritesBinding::bind)
     private val favoritesViewModel : FavoritesViewModel by viewModels()
 
-    override fun onCreateView (
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentFavoritesBinding.inflate(layoutInflater)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe()
         favoritesViewModel.getFavoritePets()
-        return binding!!.root
     }
 
     private fun observe() {
-        favoritesViewModel.favoritePets.observe(viewLifecycleOwner, ::handleFavorite)
+        favoritesViewModel.state.observe(viewLifecycleOwner, ::handleState)
     }
 
-    private fun handleFavorite(pets: List<FavoritePet>) {
-        pets.forEach { println(it) }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun handleState(uiState: UiState) {
+        // todo обработка состояния
     }
 }
