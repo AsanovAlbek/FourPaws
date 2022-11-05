@@ -27,6 +27,7 @@
     <string name="location_error_text">Не удалось сохранить выбранный регион, попробуйте еще раз</string>
     <string name="location_description">Выберите регион для поиска \nВашего питомца</string>
     <string name="uri_market">market://details?id=com.google.android.apps.maps</string>
+    <string name="uri_geo">geo:0,0?q=%1$f,%2$f</string>
     <string name="package_maps">com.google.android.apps.maps</string>
     <string name="no_shelters_in_region">В вашем регионе нет приютов</string>
 

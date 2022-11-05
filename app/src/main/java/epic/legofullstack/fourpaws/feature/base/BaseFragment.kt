@@ -1,7 +1,5 @@
 package epic.legofullstack.fourpaws.feature.base
 
-import android.os.Bundle
-import android.view.View
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
@@ -61,7 +59,7 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
     private fun startActivityForMap(longitude: Float, latitude: Float) {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("geo:0,0?q=$latitude,$longitude")
+            Uri.parse(getString(R.string.uri_geo, latitude, longitude))
         )
         intent.setPackage(getString(R.string.package_maps))
         if (intent.resolveActivity(requireActivity().packageManager) != null) {
