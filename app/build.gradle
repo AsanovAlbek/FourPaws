@@ -89,6 +89,11 @@ dependencies {
 
     //tedpermission
     implementation 'io.github.ParkSangGwon:tedpermission-coroutine:3.3.0'
+
+    // library groupie
+    implementation "com.github.lisawray.groupie:groupie:2.10.1"
+    implementation "com.github.lisawray.groupie:groupie-viewbinding:2.10.1"
+
 }
 
 kapt {

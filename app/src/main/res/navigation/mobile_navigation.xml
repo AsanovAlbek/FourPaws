@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_detail"
             app:destination="@id/navigation_detail" />
+        <action
+            android:id="@+id/action_navigation_home_to_shelter_map_fragment"
+            app:destination="@id/mapMenuItem" />
     </fragment>
 
     <fragment
@@ -39,4 +42,10 @@
         android:name="epic.legofullstack.fourpaws.feature.facts.FragmentInterestingFacts"
         android:label="@string/title_interesting_facts"
         tools:layout="@layout/fragment_interesting_facts"/>
+
+    <fragment
+        android:id="@+id/mapMenuItem"
+        android:name="epic.legofullstack.fourpaws.feature.map.presentation.ShelterMapFragment"
+        android:label="fragment_shelter_map"
+        tools:layout="@layout/fragment_shelter_map" />
 </navigation>

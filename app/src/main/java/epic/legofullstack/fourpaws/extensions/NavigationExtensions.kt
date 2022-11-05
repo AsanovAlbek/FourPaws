@@ -25,3 +25,5 @@ fun MaterialToolbar.refreshMenu(@MenuRes menuId: Int) {
     menu.clear()
     inflateMenu(menuId)
 }
+
+fun Fragment.fragmentNavController() = requireActivity().findNavController(R.id.nav_host_fragment_main)
