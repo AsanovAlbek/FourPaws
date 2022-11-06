@@ -9,5 +9,6 @@ package epic.legofullstack.fourpaws.feature.favorites.data.model
 data class FavoritePetDto (
     val id : Int,
     val name : String,
-    val isFavorite : Boolean = false
+    val isFavorite : Boolean = false,
+    val city : String
 )
