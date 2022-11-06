@@ -30,6 +30,10 @@
     <string name="uri_geo">geo:0,0?q=%1$f,%2$f</string>
     <string name="package_maps">com.google.android.apps.maps</string>
     <string name="no_shelters_in_region">В вашем регионе нет приютов</string>
+    <string name="no_internet_message">Нет соединения с интернетом</string>
+    <string name="back_arrow_title">Назад</string>
+    <string name="cant_find_pet_error">Нет подключения к интернету</string>
+    <string name="back">Вернуться</string>
 
 
 </resources>
