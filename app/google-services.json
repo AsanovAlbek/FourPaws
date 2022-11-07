@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "346547217939",
+    "project_id": "epic-four-paws",
+    "storage_bucket": "epic-four-paws.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346547217939:android:30b575da970204ca4c01e6",
+        "android_client_info": {
+          "package_name": "epic.legofullstack.fourpaws"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346547217939-s4jbssas0b0ksvsvps5laoo2vla90b9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3Q9yT1K94_bOAYhlR9z1UV1vHsfnJd5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346547217939-s4jbssas0b0ksvsvps5laoo2vla90b9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
