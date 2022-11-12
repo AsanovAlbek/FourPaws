@@ -1,8 +1,8 @@
 package epic.legofullstack.fourpaws.feature.facts.data.repository
 
-import epic.legofullstack.fourpaws.feature.facts.data.model.FactDto
-import epic.legofullstack.fourpaws.feature.facts.data.model.FactPreviewDto
 import epic.legofullstack.fourpaws.feature.facts.domain.repository.FactRepository
+import epic.legofullstack.fourpaws.network.firebase.data.model.FactDto
+import epic.legofullstack.fourpaws.network.firebase.data.model.FactPreviewDto
 
 //TODO получать данные извне
 class FactRepositoryImpl : FactRepository {

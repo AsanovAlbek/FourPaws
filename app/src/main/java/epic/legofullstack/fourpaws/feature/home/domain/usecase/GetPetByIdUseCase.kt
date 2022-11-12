@@ -14,6 +14,6 @@ class GetPetByIdUseCase @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
 ) {
     suspend operator fun invoke(petId: Int) = withContext(ioDispatcher) {
-        return@withContext safeCall { repository.getAllPets().first { petId == it.petId } }
+        return@withContext safeCall { TODO( "implementation" ) }
     }
 }

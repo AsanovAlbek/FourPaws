@@ -17,7 +17,12 @@ class PetsRepositoryImpl(
     private val remoteDataSource: FirebaseDataSource
 ) : PetsRepository {
     override suspend fun getAllPets(areaId: Int): List<PetDto> {
-        val petsByArea = remoteDataSource.getPetsByArea(areaId)
+        val petsByArea = remoteDataSource.getObjectsByFieldName(FIELD_AREA_ID, areaId, PET_COLLECTION, PetDto::class.java)
         return petsByArea.map { TODO("реализовать мапинг в PetDto") }
+    }
+
+    companion object {
+        private const val FIELD_AREA_ID = "areaId"
+        private const val PET_COLLECTION = "pet"
     }
 }
