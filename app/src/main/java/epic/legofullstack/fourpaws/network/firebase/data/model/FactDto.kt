@@ -1,14 +1,14 @@
-package epic.legofullstack.fourpaws.feature.facts.data.model
+package epic.legofullstack.fourpaws.network.firebase.data.model
 
 import epic.legofullstack.fourpaws.core.data.model.RemoteDto
 import epic.legofullstack.fourpaws.feature.facts.domain.model.Fact
 import epic.legofullstack.fourpaws.feature.facts.domain.model.FactPreview
 
 data class FactDto(
-    val id: Int,
-    val imgUrl: String,
-    val title: String,
-    val text: String
+    val id: Int = 0,
+    val imgUrl: String = "",
+    val title: String = "",
+    val text: String = ""
 ) : RemoteDto<Fact> {
     override fun toDomain(): Fact =
         Fact(
@@ -20,9 +20,9 @@ data class FactDto(
 }
 
 data class FactPreviewDto(
-    val id: Int,
-    val imgUrl: String,
-    val title: String
+    val id: Int = 0,
+    val imgUrl: String = "",
+    val title: String  = ""
 ) : RemoteDto<FactPreview> {
     override fun toDomain(): FactPreview =
         FactPreview(

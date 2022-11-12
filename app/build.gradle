@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.protobuf' version '0.8.17'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -94,6 +95,8 @@ dependencies {
     implementation 'com.github.lisawray.groupie:groupie:2.10.1'
     implementation 'com.github.lisawray.groupie:groupie-viewbinding:2.10.1'
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.0'
 }
 
 kapt {

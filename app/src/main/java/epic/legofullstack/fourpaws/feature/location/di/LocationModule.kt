@@ -12,6 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import epic.legofullstack.fourpaws.feature.location.data.AreaRepositoryImpl
 import epic.legofullstack.fourpaws.feature.location.domain.repository.AreaRepository
+import epic.legofullstack.fourpaws.network.firebase.data.FirebaseDataSource
 import java.util.Locale
 import javax.inject.Singleton
 
@@ -37,5 +38,5 @@ object LocationModule {
 
     @Provides
     @Singleton
-    fun provideAreaRepository(): AreaRepository = AreaRepositoryImpl()
+    fun provideAreaRepository(firebaseDataSource: FirebaseDataSource): AreaRepository = AreaRepositoryImpl(firebaseDataSource)
 }
