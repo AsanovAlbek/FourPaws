@@ -28,6 +28,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.viewState.observe(viewLifecycleOwner, ::handleViewState)
+        viewModel.commands.observe(viewLifecycleOwner, ::handleCommand)
 
         bindingL.buttonChooseArea.setOnClickListener {
             viewModel.saveUserArea(activityNavController())
@@ -64,7 +65,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
                     buttonChooseArea.isEnabled = true
                 }
             } else {
-                baseViewModel.commands.value = ShowDialog(
+                viewModel.commands.value = ShowDialog(
                     getString(R.string.error),
                     getString(R.string.permission_error_text),
                     getString(R.string.ok)

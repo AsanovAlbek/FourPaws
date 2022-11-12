@@ -8,6 +8,7 @@ import epic.legofullstack.fourpaws.feature.home.data.repository.PetsRepositoryIm
 import epic.legofullstack.fourpaws.feature.home.data.storage.HomePageLocalDataSource
 import epic.legofullstack.fourpaws.feature.home.domain.repository.PetsRepository
 import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetAllPetsUseCase
+import epic.legofullstack.fourpaws.network.firebase.data.FirebaseDataSource
 import javax.inject.Singleton
 
 
@@ -16,8 +17,8 @@ import javax.inject.Singleton
 object HomePageModule {
     @Provides
     @Singleton
-    fun providePetsRepository(localDataSource: HomePageLocalDataSource) : PetsRepository =
-        PetsRepositoryImpl(localDataSource)
+    fun providePetsRepository(localDataSource: HomePageLocalDataSource, firebaseDataSource: FirebaseDataSource) : PetsRepository =
+        PetsRepositoryImpl(localDataSource, firebaseDataSource)
 
     @Provides
     @Singleton

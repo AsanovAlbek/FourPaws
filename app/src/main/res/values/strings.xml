@@ -34,6 +34,7 @@
     <string name="back_arrow_title">Назад</string>
     <string name="cant_find_pet_error">Нет подключения к интернету</string>
     <string name="back">Вернуться</string>
+    <string name="pets_not_found">В выбранном регионе питомцы не найдены. Попробейте поискать в другом регионе</string>
 
 
 </resources>

@@ -1,35 +1,34 @@
 package epic.legofullstack.fourpaws.feature.home.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.core.di.DispatchersModule
+import epic.legofullstack.fourpaws.core.domain.usecase.PreferenceDataStoreUseCase
 import epic.legofullstack.fourpaws.core.presentation.ResourcesProvider
-import epic.legofullstack.fourpaws.extensions.navigateSafely
 import epic.legofullstack.fourpaws.feature.base.BaseViewModel
 import epic.legofullstack.fourpaws.feature.base.OpenFragment
 import epic.legofullstack.fourpaws.feature.base.ShowSnackbar
-import epic.legofullstack.fourpaws.network.errorhandle.ResponseState
 import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetAllPetsUseCase
-import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetPetByIdUseCase
 import epic.legofullstack.fourpaws.feature.home.presentation.dto.UiState
-import javax.inject.Inject
+import epic.legofullstack.fourpaws.network.errorhandle.ResponseState
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @HiltViewModel
 class HomePageViewModel @Inject constructor(
     private val getAllPetsUseCase : GetAllPetsUseCase,
-    private val getPetByIdUseCase: GetPetByIdUseCase,
-    @DispatchersModule.MainDispatcher private val mainDispatcher: CoroutineDispatcher,
-    @DispatchersModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @DispatchersModule.MainDispatcher
+    private val mainDispatcher: CoroutineDispatcher,
+    @DispatchersModule.IoDispatcher
+    private val ioDispatcher: CoroutineDispatcher,
+    private val areaStorage: PreferenceDataStoreUseCase,
     private val provider: ResourcesProvider
     ) : BaseViewModel() {
 
@@ -39,12 +38,14 @@ class HomePageViewModel @Inject constructor(
     fun executeWhenCreated() {
         viewModelScope.launch {
             content.value = UiState.Loading
-            withContext(ioDispatcher) {
-                when(val response = getAllPetsUseCase()) {
-                    is ResponseState.Success -> handleSuccess(response.data)
-                    is ResponseState.Error -> handleError(response.isNetworkError)
+            areaStorage.getUserArea()
+                .flowOn(ioDispatcher)
+                .collect{
+                    when(val response = getAllPetsUseCase(it.id)) {
+                        is ResponseState.Success -> handleSuccess(response.data)
+                        is ResponseState.Error -> handleError(response.isNetworkError)
+                    }
                 }
-            }
         }
     }
 
@@ -57,24 +58,18 @@ class HomePageViewModel @Inject constructor(
     private suspend fun handleSuccess(data: List<Pet>) {
         withContext(mainDispatcher) {
             content.value = UiState.Content(pets = data)
+            if(data.isEmpty()) {
+                commands.value = ShowSnackbar(text = provider.getString(R.string.pets_not_found))
+            }
         }
     }
 
     fun clickToPet(petId: Int) {
         viewModelScope.launch {
             withContext(ioDispatcher) {
-                when(val response = getPetByIdUseCase(petId)) {
-                    is ResponseState.Success -> openPetDetails(petId)
-                    is ResponseState.Error -> connectedLostSnackBar(response.isNetworkError)
-                }
+                openPetDetails(petId)
             }
         }
-    }
-
-    private suspend fun connectedLostSnackBar(networkError: Boolean) { 
-        commands.value = ShowSnackbar(
-            text = provider.getString(R.string.no_internet_message)
-        )
     }
 
     private suspend fun openPetDetails(petId: Int) {
@@ -83,5 +78,4 @@ class HomePageViewModel @Inject constructor(
             commands.value = OpenFragment(directions = action)
         }
     }
-
 }
