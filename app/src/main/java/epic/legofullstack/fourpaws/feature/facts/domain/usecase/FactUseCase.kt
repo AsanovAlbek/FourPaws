@@ -20,6 +20,6 @@ class FactUseCase @Inject constructor(
     }
 
     suspend fun getFactById(factId: Int): ResponseState<Fact> = withContext(ioDispatcher){
-        return@withContext safeCall { factRepository.getFactById(factId).toDomain() }
+        return@withContext safeCall { factRepository.getFactById(factId)?.toDomain() ?: Fact() }
     }
 }

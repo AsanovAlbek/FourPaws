@@ -1,9 +1,13 @@
 package epic.legofullstack.fourpaws.feature.base
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -26,6 +30,7 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
             is OpenFragment -> goToFragment(command)
             is StartActivityForMap -> startActivityForMap(command.longitude, command.latitude)
             is NavigateUp -> navigateUp(command)
+            is CopyText -> copyText(command)
         }
     }
 
@@ -73,5 +78,14 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
         } else {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uri_market))))
         }
+    }
+
+    private fun copyText(data: CopyText) {
+        val clipboard = getSystemService(requireContext(), ClipboardManager::class.java)
+        clipboard?.setPrimaryClip(ClipData.newPlainText(data.label, data.text))
+
+        // если версия android меньше 12
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
+            showToast(ShowToast(getString(R.string.copied)))
     }
 }

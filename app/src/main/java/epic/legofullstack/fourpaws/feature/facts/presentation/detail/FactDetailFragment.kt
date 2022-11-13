@@ -3,7 +3,6 @@ package epic.legofullstack.fourpaws.feature.facts.presentation.detail
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -11,10 +10,11 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.FragmentFactDetailBinding
+import epic.legofullstack.fourpaws.feature.base.BaseFragment
 import epic.legofullstack.fourpaws.feature.facts.presentation.dto.FactViewState
 
 @AndroidEntryPoint
-class FactDetailFragment : Fragment(R.layout.fragment_fact_detail) {
+class FactDetailFragment : BaseFragment(R.layout.fragment_fact_detail) {
     private val bindingFact by viewBinding(FragmentFactDetailBinding::bind)
     private val viewModel: FactDetailViewModel by viewModels()
     private val args: FactDetailFragmentArgs by navArgs()
@@ -22,6 +22,7 @@ class FactDetailFragment : Fragment(R.layout.fragment_fact_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
+        viewModel.commands.observe(viewLifecycleOwner, ::handleCommand)
         viewModel.getFacts(args.factId)
     }
 
