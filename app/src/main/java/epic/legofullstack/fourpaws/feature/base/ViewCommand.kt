@@ -34,7 +34,7 @@ data class OpenFragment(
     val directions: NavDirections? = null
 ) : ViewCommand
 
-data class NavigateUp(val navController: NavController): ViewCommand
+data class NavigateUp(val navController: NavController? = null): ViewCommand
 
 data class StartActivityForMap(
     val longitude: Float,

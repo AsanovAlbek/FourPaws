@@ -25,7 +25,13 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
             is ShowSnackbar -> showSnackbar(command)
             is OpenFragment -> goToFragment(command)
             is StartActivityForMap -> startActivityForMap(command.longitude, command.latitude)
+            is NavigateUp -> navigateUp(command)
         }
+    }
+
+    private fun navigateUp(command: NavigateUp) {
+        val controller = command.navController ?: fragmentNavController()
+        controller.navigateUp()
     }
 
     private fun goToFragment(command: OpenFragment) {

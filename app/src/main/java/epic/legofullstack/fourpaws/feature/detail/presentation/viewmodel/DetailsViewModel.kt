@@ -13,7 +13,6 @@ import epic.legofullstack.fourpaws.feature.base.NavigateUp
 import epic.legofullstack.fourpaws.feature.base.ShowDialog
 import epic.legofullstack.fourpaws.feature.detail.domain.model.Pet
 import epic.legofullstack.fourpaws.feature.detail.domain.usecase.AddOrRemoveInFavoritesUseCase
-import epic.legofullstack.fourpaws.feature.detail.domain.usecase.DeeplinkUseCase
 import epic.legofullstack.fourpaws.feature.detail.domain.usecase.FindPetByIdUseCase
 import epic.legofullstack.fourpaws.feature.detail.presentation.dto.UiState
 import epic.legofullstack.fourpaws.feature.home.presentation.parseError
@@ -26,7 +25,6 @@ import kotlinx.coroutines.withContext
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val findPetByIdUseCase: FindPetByIdUseCase,
-    private val deeplinkUseCase: DeeplinkUseCase,
     private val addOrRemoveInFavoritesUseCase: AddOrRemoveInFavoritesUseCase,
     private val resourcesProvider: ResourcesProvider,
 
@@ -48,30 +46,6 @@ class DetailsViewModel @Inject constructor(
                     is ResponseState.Success -> showPetInfo(pet.data)
                     is ResponseState.Error -> showError(pet.isNetworkError, navController)
                 }
-            }
-        }
-    }
-
-    fun callDeepLink(pet: Pet) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                deeplinkUseCase.callToShelter(pet.shelter)
-            }
-        }
-    }
-
-    fun sendEmailDeepLink(pet: Pet) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                deeplinkUseCase.sendMailToShelter(pet.shelter)
-            }
-        }
-    }
-
-    fun shareDeepLink(pet: Pet) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                deeplinkUseCase.sharePetInSocial(pet)
             }
         }
     }
@@ -107,7 +81,7 @@ class DetailsViewModel @Inject constructor(
                 title = resourcesProvider.getString(R.string.error),
                 message = resourcesProvider.getString(R.string.no_internet_message),
                 positiveButtonText = resourcesProvider.getString(R.string.ok),
-                callbackPositiveButton = { NavigateUp(navController) }
+                callbackPositiveButton = { commands.value = NavigateUp(navController) }
             )
         }
     }

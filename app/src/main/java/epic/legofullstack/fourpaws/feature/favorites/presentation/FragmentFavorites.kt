@@ -29,6 +29,7 @@ class FragmentFavorites : BaseFragment(R.layout.fragment_favorites) {
 
     private fun observe() {
         favoritesViewModel.state.observe(viewLifecycleOwner, ::handleFavorite)
+        favoritesViewModel.commands.observe(viewLifecycleOwner, ::handleCommand)
     }
 
     private fun handleFavorite(favoriteState: FavoriteState) {
@@ -71,8 +72,6 @@ class FragmentFavorites : BaseFragment(R.layout.fragment_favorites) {
     }
 
     private fun openDetails(favoritePetId: Int) {
-        favoritesViewModel.clickToFavorite(
-            favoriteId = favoritePetId, navController =  fragmentNavController()
-        )
+        favoritesViewModel.clickToFavorite(favoriteId = favoritePetId)
     }
 }

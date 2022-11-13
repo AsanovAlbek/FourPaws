@@ -24,7 +24,7 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe()
-        viewModel.findPet(id = args.clickedPetId, navController =  activityNavController())
+        viewModel.findPet(id = args.clickedPetId, navController =  fragmentNavController())
     }
 
     private fun observe() {
@@ -36,15 +36,12 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
         changeStarButtonTint(pet)
         detailBinding.apply {
             callButton.setOnClickListener {
-                viewModel.callDeepLink(pet)
             }
 
             sendEmailButton.setOnClickListener {
-                viewModel.sendEmailDeepLink(pet)
             }
 
             sharedPostButton.setOnClickListener {
-                viewModel.shareDeepLink(pet)
             }
 
             starButton.setOnClickListener {
@@ -74,8 +71,15 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
         }
     }
 
+    private fun refreshUi(state: UiState) {
+        detailBinding.apply {
+            detailContent.isVisible = state is UiState.Content
+            detailsProgressBar.isVisible = state is UiState.Loading
+        }
+    }
+
     private fun handleState(uiState: UiState) {
-        detailBinding.detailContent.isVisible = uiState is UiState.Content
+        refreshUi(uiState)
         when(uiState) {
             is UiState.Content -> uiState.handleContent()
             is UiState.Error -> uiState.handleError()
