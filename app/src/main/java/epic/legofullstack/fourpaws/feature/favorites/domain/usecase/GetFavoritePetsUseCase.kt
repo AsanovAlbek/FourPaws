@@ -17,7 +17,7 @@ class GetFavoritePetsUseCase(
 ) {
     suspend operator fun invoke() = withContext(ioDispatcher) {
         return@withContext safeCall {
-            repository.getFavorites().map { it.toFavoritePet() }.filter { it.isFavorite }
+            repository.getFavorites().map { it.toFavoritePet() }
         }
     }
 }

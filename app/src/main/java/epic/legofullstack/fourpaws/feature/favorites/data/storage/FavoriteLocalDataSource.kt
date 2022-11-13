@@ -1,15 +1,13 @@
 package epic.legofullstack.fourpaws.feature.favorites.data.storage
 
+import android.util.Log
+import epic.legofullstack.fourpaws.application.local.dao.FavoritePetDao
+import epic.legofullstack.fourpaws.feature.favorites.data.mapper.toFavoritePetDto
 import epic.legofullstack.fourpaws.feature.favorites.data.model.FavoritePetDto
 
-class FavoriteLocalDataSource {
-    suspend fun favoritePets() = fakeFavoriteList
-
-    private val fakeFavoriteList = listOf(
-        FavoritePetDto(1, "Мурка", true, "Ростов"),
-        FavoritePetDto(2, "Тузик", true, "Саратов"),
-        FavoritePetDto(3, "Мася", true,"Краснодар"),
-        FavoritePetDto(4, "Рекс", true, "Нальчик"),
-        FavoritePetDto(5, "Борис", true, "Москва")
-    )
+class FavoriteLocalDataSource(
+    private val favoritesDao: FavoritePetDao
+) {
+    suspend fun favoritePets(): List<FavoritePetDto> =
+        favoritesDao.getFavorites().map { entity -> entity.toFavoritePetDto() }
 }
