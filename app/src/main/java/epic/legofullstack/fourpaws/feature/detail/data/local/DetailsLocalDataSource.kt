@@ -1,11 +1,34 @@
 package epic.legofullstack.fourpaws.feature.detail.data.local
 
+import android.util.Log
+import epic.legofullstack.fourpaws.application.local.dao.FavoritePetDao
 import epic.legofullstack.fourpaws.core.domain.model.Area
+import epic.legofullstack.fourpaws.feature.detail.data.mapper.toEntity
+import epic.legofullstack.fourpaws.feature.detail.data.mapper.toPetDto
 import epic.legofullstack.fourpaws.feature.detail.data.model.PetDto
 import epic.legofullstack.fourpaws.feature.detail.data.model.ShelterDto
 
-class DetailsLocalDataSource {
-    suspend fun fakePets() = fakeList
+class DetailsLocalDataSource(
+    private val favoritesDao: FavoritePetDao
+) {
+    companion object {
+        const val EXIST = 1
+        const val NOT_EXIST = 0
+    }
+    suspend fun addToFavorites(petDto: PetDto) {
+        favoritesDao.addFavorite(petDto.toEntity())
+    }
+    suspend fun removeToFavorites(petDto: PetDto) {
+        favoritesDao.removeFavorite(petDto.toEntity())
+    }
+
+    suspend fun findFavorite(id: Int) =
+        if(favoritesDao.isExist(id) == EXIST)
+            favoritesDao.findFavorite(id).toPetDto()
+        else
+            fakeList.first { it.petId == id }
+
+    // Временно оставлю
     private val fakeList = listOf(
         PetDto(
             petId = 1,

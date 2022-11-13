@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import epic.legofullstack.fourpaws.application.local.dao.FavoritePetDao
 import epic.legofullstack.fourpaws.feature.favorites.data.repository.FavoritesRepositoryImpl
 import epic.legofullstack.fourpaws.feature.favorites.data.storage.FavoriteLocalDataSource
 import epic.legofullstack.fourpaws.feature.favorites.domain.repository.FavoritesRepository
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 class FavoritesModule {
     @Provides
     @Singleton
-    fun provideFavoriteLocalDataSource() = FavoriteLocalDataSource()
+    fun provideFavoriteLocalDataSource(favoritesDao: FavoritePetDao) = FavoriteLocalDataSource(favoritesDao)
 
     @Provides
     @Singleton
