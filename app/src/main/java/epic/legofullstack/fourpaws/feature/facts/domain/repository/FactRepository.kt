@@ -6,5 +6,5 @@ import epic.legofullstack.fourpaws.network.firebase.data.model.FactPreviewDto
 interface FactRepository {
     suspend fun getFacts(): List<FactPreviewDto>
 
-    suspend fun getFactById(factId: Int): FactDto
+    suspend fun getFactById(factId: Int): FactDto?
 }

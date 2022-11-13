@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import epic.legofullstack.fourpaws.feature.facts.data.repository.FactRepositoryImpl
 import epic.legofullstack.fourpaws.feature.facts.domain.repository.FactRepository
+import epic.legofullstack.fourpaws.network.firebase.data.FirebaseDataSource
 import javax.inject.Singleton
 
 @Module
@@ -13,5 +14,5 @@ import javax.inject.Singleton
 object InterestingFactModule {
     @Provides
     @Singleton
-    fun provideFactRepository(): FactRepository = FactRepositoryImpl()
+    fun provideFactRepository(firebaseDataSource: FirebaseDataSource): FactRepository = FactRepositoryImpl(firebaseDataSource)
 }

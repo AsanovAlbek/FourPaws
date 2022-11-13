@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/copy_address"
+        android:title="@string/copy_item_menu" />
+    <item
+        android:id="@+id/open_on_map"
+        android:title="@string/open_map_item_menu" />
+</menu>

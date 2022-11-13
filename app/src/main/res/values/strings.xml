@@ -25,7 +25,7 @@
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="error">Ошибка</string>
     <string name="location_error_text">Не удалось сохранить выбранный регион, попробуйте еще раз</string>
-    <string name="location_description">Выберите регион для поиска \nВашего питомца</string>
+    <string name="location_description">Выберите регион для поиска питомца</string>
     <string name="uri_market">market://details?id=com.google.android.apps.maps</string>
     <string name="uri_geo">geo:0,0?q=%1$f,%2$f</string>
     <string name="package_maps">com.google.android.apps.maps</string>
@@ -35,6 +35,10 @@
     <string name="cant_find_pet_error">Нет подключения к интернету</string>
     <string name="back">Вернуться</string>
     <string name="pets_not_found">В выбранном регионе питомцы не найдены. Попробейте поискать в другом регионе</string>
+    <string name="label_shelter_address">shelter address</string>
+    <string name="open_map_item_menu">Открыть карту</string>
+    <string name="copy_item_menu">Скопировать адрес</string>
+    <string name="copied">Скопировано</string>
 
 
 </resources>
