@@ -19,7 +19,7 @@ class FavoritePetsAdapter(
             bindItem.apply {
                 city.cityName.text = favorite.city
                 petName.text = favorite.name
-                root.setOnClickListener { itemClick.invoke(favorite.id) }
+                root.setOnClickListener { itemClick(favorite.id) }
             }
         }
     }
