@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import epic.legofullstack.fourpaws.feature.home.data.repository.PetsRepositoryImpl
-import epic.legofullstack.fourpaws.feature.home.data.storage.HomePageLocalDataSource
+import epic.legofullstack.fourpaws.feature.home.data.storage.HomePageDataSource
 import epic.legofullstack.fourpaws.feature.home.domain.repository.PetsRepository
 import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetAllPetsUseCase
 import epic.legofullstack.fourpaws.network.firebase.data.FirebaseDataSource
@@ -17,12 +17,13 @@ import javax.inject.Singleton
 object HomePageModule {
     @Provides
     @Singleton
-    fun providePetsRepository(localDataSource: HomePageLocalDataSource, firebaseDataSource: FirebaseDataSource) : PetsRepository =
-        PetsRepositoryImpl(localDataSource, firebaseDataSource)
+    fun providePetsRepository(localDataSource: HomePageDataSource) : PetsRepository =
+        PetsRepositoryImpl(localDataSource)
 
     @Provides
     @Singleton
-    fun provideHomePageLocalDataSource(): HomePageLocalDataSource = HomePageLocalDataSource()
+    fun provideHomePageLocalDataSource(remoteSource: FirebaseDataSource): HomePageDataSource =
+        HomePageDataSource(remoteSource)
 
     @Provides
     fun provideGetAllPetsUseCase(petsRepository: PetsRepository) : GetAllPetsUseCase =
