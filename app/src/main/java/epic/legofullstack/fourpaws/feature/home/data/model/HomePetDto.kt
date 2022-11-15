@@ -6,9 +6,10 @@ package epic.legofullstack.fourpaws.feature.home.data.model
  * @param name - кличка питомца
  * @param isFavorite - является ли питомец в списке избранных
  */
-data class PetDto (
-    val petId : Int,
-    val name : String,
-    val isFavorite : Boolean = false,
-    val city : String
+data class HomePetDto (
+    val id: Int = 0,
+    val name: String = "",
+    val city: String = "",
+    val gender: String = "",
+    val previewImg: String = "",
 )
