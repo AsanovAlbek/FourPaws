@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.lifecycle.HiltViewModel
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.core.di.DispatchersModule
@@ -11,9 +13,8 @@ import epic.legofullstack.fourpaws.core.presentation.ResourcesProvider
 import epic.legofullstack.fourpaws.feature.base.BaseViewModel
 import epic.legofullstack.fourpaws.feature.base.NavigateUp
 import epic.legofullstack.fourpaws.feature.base.ShowDialog
-import epic.legofullstack.fourpaws.feature.detail.domain.model.Pet
+import epic.legofullstack.fourpaws.feature.detail.domain.model.PetDetail
 import epic.legofullstack.fourpaws.feature.detail.domain.usecase.AddOrRemoveInFavoritesUseCase
-import epic.legofullstack.fourpaws.feature.detail.domain.usecase.DeeplinkUseCase
 import epic.legofullstack.fourpaws.feature.detail.domain.usecase.FindPetByIdUseCase
 import epic.legofullstack.fourpaws.feature.detail.presentation.dto.UiState
 import epic.legofullstack.fourpaws.feature.home.presentation.parseError
@@ -26,7 +27,6 @@ import kotlinx.coroutines.withContext
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val findPetByIdUseCase: FindPetByIdUseCase,
-    private val deeplinkUseCase: DeeplinkUseCase,
     private val addOrRemoveInFavoritesUseCase: AddOrRemoveInFavoritesUseCase,
     private val resourcesProvider: ResourcesProvider,
 
@@ -37,65 +37,27 @@ class DetailsViewModel @Inject constructor(
 ): BaseViewModel() {
     private val content = MutableLiveData<UiState>()
     val state: LiveData<UiState> get() = content
-
     private var bufferContent = UiState.Content()
+
+    private val favoriteState = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> get() = favoriteState
 
     fun findPet(id: Int, navController: NavController) {
         viewModelScope.launch {
             content.value = UiState.Loading
             withContext(ioDispatcher) {
                 when(val pet = findPetByIdUseCase(id)) {
-                    is ResponseState.Success -> showPetInfo(pet.data)
+                    is ResponseState.Success -> showPetInfo(pet.data, navController)
                     is ResponseState.Error -> showError(pet.isNetworkError, navController)
                 }
             }
         }
     }
 
-    fun callDeepLink(pet: Pet) {
+    fun changeFavorite(pet: PetDetail) {
         viewModelScope.launch {
             withContext(ioDispatcher) {
-                deeplinkUseCase.callToShelter(pet.shelter)
-            }
-        }
-    }
-
-    fun sendEmailDeepLink(pet: Pet) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                deeplinkUseCase.sendMailToShelter(pet.shelter)
-            }
-        }
-    }
-
-    fun shareDeepLink(pet: Pet) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                deeplinkUseCase.sharePetInSocial(pet)
-            }
-        }
-    }
-
-    fun addPetToFavorite(pet: Pet) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                addOrRemoveInFavoritesUseCase.addPetToFavorites(pet = pet)
-                withContext(mainDispatcher) {
-                    bufferContent = bufferContent.copy(pet = pet.addToFavorites())
-                    content.value = bufferContent
-                }
-            }
-        }
-    }
-
-    fun removePetToFavorite(pet: Pet) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                addOrRemoveInFavoritesUseCase.removePetToFavorites(pet = pet)
-                withContext(mainDispatcher) {
-                    bufferContent = bufferContent.copy(pet = pet.removeToFavorites())
-                    content.value = bufferContent
-                }
+                addOrRemove(pet)
             }
         }
     }
@@ -107,15 +69,54 @@ class DetailsViewModel @Inject constructor(
                 title = resourcesProvider.getString(R.string.error),
                 message = resourcesProvider.getString(R.string.no_internet_message),
                 positiveButtonText = resourcesProvider.getString(R.string.ok),
-                callbackPositiveButton = { NavigateUp(navController) }
+                callbackPositiveButton = { commands.value = NavigateUp(navController) }
             )
         }
     }
 
-    private suspend fun showPetInfo(data: Pet) {
+    private suspend fun showPetInfo(data: PetDetail?, navController: NavController) {
         withContext(mainDispatcher) {
-            bufferContent = bufferContent.copy(pet = data)
-            content.value = UiState.Content(data)
+            if (data == null) {
+                commands.value = ShowDialog(
+                    title = resourcesProvider.getString(R.string.error),
+                    message = resourcesProvider.getString(R.string.pet_not_found),
+                    positiveButtonText = resourcesProvider.getString(R.string.back),
+                    callbackPositiveButton = { commands.value = NavigateUp(navController) }
+                )
+            } else {
+                bufferContent = bufferContent.copy(pet = data)
+                content.value = UiState.Content(data)
+                addOrRemove(data)
+            }
+        }
+    }
+
+    private suspend fun addOrRemove(pet: PetDetail) {
+        withContext(ioDispatcher) {
+            val isPetFavorite = addOrRemoveInFavoritesUseCase.isFavorite(pet = pet)
+            if (!isPetFavorite) {
+                addOrRemoveInFavoritesUseCase.addPetToFavorites(pet)
+            } else {
+                addOrRemoveInFavoritesUseCase.removePetToFavorites(pet)
+            }
+            withContext(mainDispatcher) {
+                favoriteState.value = isPetFavorite
+            }
+        }
+    }
+
+    fun addChips(chipGroup: ChipGroup, listOfChipsText: List<String>) {
+        viewModelScope.launch {
+            withContext(mainDispatcher) {
+                listOfChipsText.forEach { chipText ->
+                    val chip = Chip(chipGroup.context).apply {
+                        text = chipText
+                        isClickable = false
+                        isCheckable = false
+                    }
+                    chipGroup.addView(chip)
+                }
+            }
         }
     }
 }

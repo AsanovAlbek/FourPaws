@@ -8,13 +8,16 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.FragmentPetDetailBinding
-import epic.legofullstack.fourpaws.extensions.activityNavController
 import epic.legofullstack.fourpaws.extensions.fragmentNavController
 import epic.legofullstack.fourpaws.feature.base.BaseFragment
 import epic.legofullstack.fourpaws.feature.base.NavigateUp
 import epic.legofullstack.fourpaws.feature.base.ShowDialog
-import epic.legofullstack.fourpaws.feature.detail.domain.model.Pet
+import epic.legofullstack.fourpaws.feature.detail.domain.model.PetDetail
+import epic.legofullstack.fourpaws.feature.detail.presentation.adapter.ImagesSlider
 import epic.legofullstack.fourpaws.feature.detail.presentation.dto.UiState
+import epic.legofullstack.fourpaws.feature.detail.presentation.mapAge
+import epic.legofullstack.fourpaws.feature.detail.presentation.mapCharacteristics
+import epic.legofullstack.fourpaws.feature.detail.presentation.mapGender
 import epic.legofullstack.fourpaws.feature.detail.presentation.viewmodel.DetailsViewModel
 
 class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
@@ -24,58 +27,49 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe()
-        viewModel.findPet(id = args.clickedPetId, navController =  activityNavController())
+        viewModel.findPet(id = args.clickedPetId, navController =  fragmentNavController())
     }
 
     private fun observe() {
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
         viewModel.commands.observe(viewLifecycleOwner, ::handleCommand)
+        viewModel.isFavorite.observe(viewLifecycleOwner, ::changeStarButton)
     }
 
-    private fun clickListeners(pet: Pet) {
-        changeStarButtonTint(pet)
+    private fun changeStarButton(isFavorite: Boolean) {
+        val alreadyIsFavoriteColor = resources.getColor(R.color.star_button, null)
+        val notFavoriteColor = resources.getColor(R.color.black, null)
+
+        detailBinding.starButton.icon.setTint(
+            if (isFavorite) notFavoriteColor else alreadyIsFavoriteColor
+        )
+    }
+
+    private fun clickListeners(pet: PetDetail) {
         detailBinding.apply {
             callButton.setOnClickListener {
-                viewModel.callDeepLink(pet)
             }
 
             sendEmailButton.setOnClickListener {
-                viewModel.sendEmailDeepLink(pet)
             }
 
             sharedPostButton.setOnClickListener {
-                viewModel.shareDeepLink(pet)
             }
 
             starButton.setOnClickListener {
-                changeFavorite(pet = pet)
-                changeStarButtonTint(pet = pet)
+                viewModel.changeFavorite(pet)
             }
         }
     }
 
-    private fun changeFavorite(pet: Pet) {
-        if (!pet.isFavorite) {
-            viewModel.addPetToFavorite(pet = pet)
-        } else {
-            viewModel.removePetToFavorite(pet = pet)
-        }
-    }
-
-    private fun changeStarButtonTint(pet: Pet) {
-        val alreadyIsFavoriteColor = requireActivity().resources.getColor(R.color.star_button, null)
-        val notFavoriteColor = requireActivity().resources.getColor(R.color.black, null)
-        detailBinding.starButton.icon.apply {
-            if (pet.isFavorite) {
-                setTint(alreadyIsFavoriteColor)
-            } else {
-                setTint(notFavoriteColor)
-            }
+    private fun refreshUi(state: UiState) {
+        detailBinding.apply {
+            detailContent.isVisible = state is UiState.Content
         }
     }
 
     private fun handleState(uiState: UiState) {
-        detailBinding.detailContent.isVisible = uiState is UiState.Content
+        refreshUi(uiState)
         when(uiState) {
             is UiState.Content -> uiState.handleContent()
             is UiState.Error -> uiState.handleError()
@@ -94,11 +88,22 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
     }
 
     private fun UiState.Content.handleContent() {
+        viewModel.changeFavorite(pet)
         detailBinding.apply {
             with(pet) {
-                petNameAndAgeText.text = name
-                addressText.text = shelter.address
-                shelterText.text = shelter.name
+                petNameAndAgeText.text = "$name, ${age.mapAge(requireContext())}"
+                address.text = shelter.address
+                shelterName.text = shelter.name
+                summary.text = description
+                maleText.text = gender.mapGender(requireContext())
+                breedText.text = breed.name
+                colorText.text = color
+                viewModel.addChips(
+                    chipGroup = secondaryParams,
+                    listOfChipsText = pet.characteristics.mapCharacteristics(requireContext())
+                )
+                val imagesAdapter = ImagesSlider(images = imgs)
+                petPhotosViewPager.adapter = imagesAdapter
             }
         }
         clickListeners(pet = pet)

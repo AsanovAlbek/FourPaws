@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +26,13 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
             is ShowSnackbar -> showSnackbar(command)
             is OpenFragment -> goToFragment(command)
             is StartActivityForMap -> startActivityForMap(command.longitude, command.latitude)
+            is NavigateUp -> navigateUp(command.navController)
         }
+    }
+
+    private fun navigateUp(navController: NavController?) {
+        val navigation = navController ?: fragmentNavController()
+        navigation.navigateUp()
     }
 
     private fun goToFragment(command: OpenFragment) {
