@@ -1,13 +1,12 @@
 package epic.legofullstack.fourpaws.application.fragments
 
 import android.view.MenuItem
-import androidx.core.view.children
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.FragmentMainBinding
 import epic.legofullstack.fourpaws.extensions.fragmentNavController
+import epic.legofullstack.fourpaws.extensions.navigateSafely
 import epic.legofullstack.fourpaws.extensions.refreshMenu
 
 class MainFragment :
@@ -23,26 +22,20 @@ class MainFragment :
         with(bindingView) {
             mainToolbar.setOnMenuItemClickListener(::homeMenuItemClick)
             mainToolbar.inflateMenu(R.menu.home_toolbar_menu)
-            // Обработка нажатий на элементы нижнего меню
-            navViewMain.setOnItemSelectedListener { item ->
-                // Дефолтная обработка
-                NavigationUI.onNavDestinationSelected(item, navController)
-                // Изменение меню по выбранному элементу
-                with(mainToolbar) {
-                    when(item.itemId) {
-                        R.id.navigation_home -> {
-                            refreshMenu(R.menu.home_toolbar_menu)
-                            true
-                        }
-                        else -> {
-                            refreshMenu(R.menu.menu_with_arrow_button)
-                            true
-                        }
+
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id) {
+                    R.id.navigation_home -> {
+                        mainToolbar.navigationIcon = null
+                        mainToolbar.refreshMenu(R.menu.home_toolbar_menu)
                     }
+                    R.id.mapMenuItem -> refreshToolbar(filterVisible = true, backButtonVisible = true)
+                    R.id.filterMenuItem -> refreshToolbar(backButtonVisible = true)
+                    else -> refreshToolbar()
                 }
+                mainToolbar.title = destination.label
             }
         }
-
     }
 
     private fun homeMenuItemClick(menuItem: MenuItem): Boolean =
@@ -53,17 +46,30 @@ class MainFragment :
             }
             R.id.filterMenuItem -> {
                 // todo переход в фильтр
-                true
-            }
-
-            R.id.backArrowItem -> {
-                navController.navigateUp()
-                if (navController.currentDestination?.id == R.id.navigation_home) {
-                    bindingView.mainToolbar.refreshMenu(R.menu.home_toolbar_menu)
+                if (fragmentNavController().currentDestination?.id == R.id.navigation_home) {
+                    fragmentNavController().navigateSafely(R.id.action_navigation_home_to_filterPetFragment)
+                } else {
+                    fragmentNavController().navigateSafely(R.id.action_navigation_mapMenuItem_to_filterPetFragment)
                 }
                 true
             }
-
             else -> requireActivity().onOptionsItemSelected(menuItem)
         }
+
+    private fun refreshToolbar(
+        filterVisible: Boolean = false,
+        mapVisible: Boolean = false,
+        backButtonVisible: Boolean = false
+    ) {
+        with(bindingView.mainToolbar) {
+            menu.findItem(R.id.filterMenuItem).isVisible = filterVisible
+            menu.findItem(R.id.mapMenuItem).isVisible = mapVisible
+            if (backButtonVisible) {
+                setNavigationIcon(R.drawable.ic_arrow_back)
+                setNavigationOnClickListener {
+                    fragmentNavController().navigateUp()
+                }
+            }
+        }
+    }
 }

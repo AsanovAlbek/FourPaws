@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">FourPaws</string>
     <!-- fragments labels in navigation -->
-    <string name="title_home">Home</string>
-    <string name="title_favorite">Favorite</string>
-    <string name="title_interesting_facts">Interesting Facts</string>
+    <string name="title_home">Питомцы</string>
+    <string name="title_favorite">Избранное</string>
+    <string name="title_interesting_facts">Интересное</string>
 
     <!-- button name    -->
     <string name="choose_area_title">Выбрать</string>
