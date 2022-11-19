@@ -25,6 +25,6 @@ abstract class FavoritePetDao {
     @Delete
     abstract fun removeFavorite(removedPet: FavoritePetEntity)
 
-    @Query("Select id from $FAVORITES_TABLE where id = :petId")
-    abstract fun isExist(petId: Int): Int
+    @Query("Select exists (Select id from $FAVORITES_TABLE where id = :petId)")
+    abstract fun isExist(petId: Int): Boolean
 }

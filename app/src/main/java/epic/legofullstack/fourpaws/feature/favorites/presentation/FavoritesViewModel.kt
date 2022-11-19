@@ -3,10 +3,13 @@ package epic.legofullstack.fourpaws.feature.favorites.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.core.di.DispatchersModule
 import epic.legofullstack.fourpaws.core.presentation.ResourcesProvider
 import epic.legofullstack.fourpaws.feature.base.BaseViewModel
+import epic.legofullstack.fourpaws.feature.base.NavigateUp
 import epic.legofullstack.fourpaws.feature.base.OpenFragment
+import epic.legofullstack.fourpaws.feature.base.ShowDialog
 import epic.legofullstack.fourpaws.feature.favorites.domain.model.FavoritePet
 import epic.legofullstack.fourpaws.feature.favorites.domain.usecase.GetFavoritePetsUseCase
 import epic.legofullstack.fourpaws.feature.favorites.presentation.state.FavoriteState
@@ -48,13 +51,24 @@ class FavoritesViewModel @Inject constructor(
 
     private suspend fun handleContent(list: List<FavoritePet>) {
         withContext(mainDispatcher) {
-            content.value = FavoriteState.Content(pets = list)
+            if (list.isEmpty()) {
+                commands.value = ShowDialog(
+                    title = resourcesProvider.getString(R.string.is_empty_yet),
+                    message = resourcesProvider.getString(R.string.is_empty_message),
+                    positiveButtonText = resourcesProvider.getString(R.string.ok),
+                    callbackPositiveButton = { commands.value = NavigateUp() }
+                )
+            } else {
+                content.value = FavoriteState.Content(pets = list)
+            }
         }
     }
 
     fun clickToFavorite(favoriteId: Int) {
         viewModelScope.launch {
-            openFavorite(favoriteId)
+            withContext(ioDispatcher) {
+                openFavorite(favoriteId)
+            }
         }
     }
 

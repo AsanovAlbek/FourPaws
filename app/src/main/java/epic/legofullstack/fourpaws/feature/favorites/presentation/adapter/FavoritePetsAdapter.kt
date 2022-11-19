@@ -3,6 +3,9 @@ package epic.legofullstack.fourpaws.feature.favorites.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.ItemPetCardBinding
 import epic.legofullstack.fourpaws.feature.favorites.domain.model.FavoritePet
@@ -20,7 +23,28 @@ class FavoritePetsAdapter(
                 city.cityName.text = favorite.city
                 petName.text = favorite.name
                 root.setOnClickListener { itemClick(favorite.id) }
+                setGenderIcon(favorite)
+                Glide.with(bindItem.root)
+                    .load(favorite.previewImg)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .transform(
+                        GranularRoundedCorners(
+                            CORNER_RADIUS, CORNER_RADIUS, CORNER_RADIUS, CORNER_RADIUS
+                        )
+                    )
+                    .error(R.drawable.ic_sad)
+                    .into(picture)
             }
+        }
+
+        private fun setGenderIcon(pet: FavoritePet) {
+            bindItem.imgGender.setImageResource(
+                if (pet.gender == MALE) {
+                    R.drawable.img_male
+                } else {
+                    R.drawable.ic_female
+                }
+            )
         }
     }
 
@@ -42,5 +66,10 @@ class FavoritePetsAdapter(
     fun refreshFavorites(newPets : List<FavoritePet>) {
         favoritePets.clear()
         favoritePets.addAll(newPets)
+    }
+
+    companion object {
+        const val CORNER_RADIUS = 8f
+        const val MALE = "male"
     }
 }

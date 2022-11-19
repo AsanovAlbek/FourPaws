@@ -68,13 +68,6 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
         }
     }
 
-    private fun refreshUi(state: UiState) {
-        detailBinding.apply {
-            detailContent.isVisible = state is UiState.Content
-            detailsProgressBar.isVisible = state is UiState.Loading
-        }
-    }
-
     private fun handleState(uiState: UiState) {
         refreshUi(uiState)
         when(uiState) {

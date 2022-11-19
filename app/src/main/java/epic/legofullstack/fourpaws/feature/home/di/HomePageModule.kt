@@ -22,8 +22,7 @@ object HomePageModule {
 
     @Provides
     @Singleton
-    fun provideHomePageLocalDataSource(remoteSource: FirebaseDataSource): HomePageDataSource =
-        HomePageDataSource(remoteSource)
+    fun provideHomePageDataSource( source: FirebaseDataSource): HomePageDataSource = HomePageDataSource(source)
 
     @Provides
     fun provideGetAllPetsUseCase(petsRepository: PetsRepository) : GetAllPetsUseCase =
