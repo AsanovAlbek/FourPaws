@@ -1,6 +1,6 @@
 package epic.legofullstack.fourpaws.feature.home.domain.repository
 
-import epic.legofullstack.fourpaws.feature.home.data.model.PetDto
+import epic.legofullstack.fourpaws.feature.home.data.model.HomePetDto
 
 /**
  * Интерфейс для репозитория
@@ -9,5 +9,5 @@ import epic.legofullstack.fourpaws.feature.home.data.model.PetDto
  */
 interface PetsRepository {
     /** Получение всех питомцев */
-    suspend fun getAllPets(areaId: Int) : List<PetDto>
+    suspend fun getAllPets(areaId: Int) : List<HomePetDto>
 }

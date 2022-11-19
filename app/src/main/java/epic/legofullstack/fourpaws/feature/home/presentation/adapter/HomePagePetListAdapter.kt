@@ -1,10 +1,13 @@
 package epic.legofullstack.fourpaws.feature.home.presentation.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.ItemPetCardBinding
 import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
@@ -22,8 +25,29 @@ class HomePagePetListAdapter(
             binding.apply {
                 city.cityName.text = pet.city
                 petName.text = pet.name
-                root.setOnClickListener { itemClick.invoke(pet.id) }
+                root.setOnClickListener { itemClick(pet.id) }
+                setGenderIcon(pet)
+                Glide.with(binding.root)
+                    .load(pet.previewImg)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .transform(
+                        GranularRoundedCorners(
+                            CORNER_RADIUS, CORNER_RADIUS, CORNER_RADIUS, CORNER_RADIUS
+                        )
+                    )
+                    .error(R.drawable.ic_sad)
+                    .into(picture)
             }
+        }
+
+        private fun setGenderIcon(pet: Pet) {
+            binding.imgGender.setImageResource(
+                if (pet.gender == MALE) {
+                    R.drawable.img_male
+                } else {
+                    R.drawable.ic_female
+                }
+            )
         }
     }
 
@@ -44,5 +68,10 @@ class HomePagePetListAdapter(
     fun refreshPets(newPets : List<Pet>) {
         pets.clear()
         pets.addAll(newPets)
+    }
+
+    companion object {
+        const val MALE = "male"
+        const val CORNER_RADIUS = 8f
     }
 }

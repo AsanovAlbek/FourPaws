@@ -5,9 +5,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
+import epic.legofullstack.fourpaws.application.dto.MainViewState
 import epic.legofullstack.fourpaws.core.domain.model.Area
+import epic.legofullstack.fourpaws.core.presentation.model.ErrorModel
 import epic.legofullstack.fourpaws.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
@@ -26,8 +29,20 @@ class MainActivity : AppCompatActivity() {
         viewModel.state.observe(this, ::handleStateCity)
     }
 
-    private fun handleStateCity(area: Area) {
-        setupNavigation(area)
+    private fun handleStateCity(state: MainViewState) {
+        when(state) {
+            is MainViewState.Content -> setupNavigation(state.userArea)
+            is MainViewState.Error -> showError(state.errorModel)
+        }
+    }
+
+    private fun showError(errorModel: ErrorModel) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.error))
+            .setMessage(errorModel.title)
+            .setPositiveButton(getString(R.string.ok)) { _, _ -> finish() }
+            .setCancelable(false)
+            .show()
     }
 
     private fun setupNavigation(userArea: Area) {

@@ -2,7 +2,6 @@ package epic.legofullstack.fourpaws.feature.base
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.google.android.material.snackbar.Snackbar
@@ -39,4 +38,9 @@ data class NavigateUp(val navController: NavController? = null): ViewCommand
 data class StartActivityForMap(
     val longitude: Float,
     val latitude: Float
+) : ViewCommand
+
+data class CopyText(
+    val label: String,
+    val text: String
 ) : ViewCommand

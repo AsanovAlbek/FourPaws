@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">FourPaws</string>
     <!-- fragments labels in navigation -->
-    <string name="title_home">Home</string>
-    <string name="title_favorite">Favorite</string>
-    <string name="title_interesting_facts">Interesting Facts</string>
+    <string name="title_home">Питомцы</string>
+    <string name="title_favorite">Избранное</string>
+    <string name="title_interesting_facts">Интересное</string>
 
     <!-- button name    -->
     <string name="choose_area_title">Выбрать</string>
@@ -25,7 +25,7 @@
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="error">Ошибка</string>
     <string name="location_error_text">Не удалось сохранить выбранный регион, попробуйте еще раз</string>
-    <string name="location_description">Выберите регион для поиска \nВашего питомца</string>
+    <string name="location_description">Выберите регион для поиска питомца</string>
     <string name="uri_market">market://details?id=com.google.android.apps.maps</string>
     <string name="uri_geo">geo:0,0?q=%1$f,%2$f</string>
     <string name="package_maps">com.google.android.apps.maps</string>
@@ -55,6 +55,10 @@
     <string name="female">female</string>
     <string name="ru_male">мальчик</string>
     <string name="ru_female">девочка</string>
+    <string name="label_shelter_address">shelter address</string>
+    <string name="open_map_item_menu">Открыть карту</string>
+    <string name="copy_item_menu">Скопировать адрес</string>
+    <string name="copied">Скопировано</string>
 
 
 </resources>

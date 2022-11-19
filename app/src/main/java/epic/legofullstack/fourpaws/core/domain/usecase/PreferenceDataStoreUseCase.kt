@@ -8,7 +8,7 @@ import epic.legofullstack.fourpaws.core.domain.repository.UserAreaDataStoreRepos
 import epic.legofullstack.fourpaws.network.errorhandle.ResponseState
 import epic.legofullstack.fourpaws.network.errorhandle.safeCall
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -19,10 +19,11 @@ class PreferenceDataStoreUseCase @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun getUserArea(): Flow<Area> =
+    suspend fun getUserArea(): ResponseState<Area> = safeCall {
         withContext(ioDispatcher) {
-            return@withContext dataStore.getUserArea().map { pref -> pref.toArea() }
+            return@withContext dataStore.getUserArea().map { pref -> pref.toArea() }.first()
         }
+    }
 
     suspend fun saveUserArea(area: Area): ResponseState<UserAreaPreferences> =
         safeCall { dataStore.saveUserArea(area.toAreaModel()) }
