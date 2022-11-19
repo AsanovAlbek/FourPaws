@@ -15,8 +15,8 @@ import epic.legofullstack.fourpaws.feature.home.domain.model.Pet
 import epic.legofullstack.fourpaws.feature.home.domain.usecase.GetAllPetsUseCase
 import epic.legofullstack.fourpaws.feature.home.presentation.dto.UiState
 import epic.legofullstack.fourpaws.network.errorhandle.ResponseState
+import epic.legofullstack.fourpaws.network.errorhandle.handleResult
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -38,14 +38,12 @@ class HomePageViewModel @Inject constructor(
     fun executeWhenCreated() {
         viewModelScope.launch {
             content.value = UiState.Loading
-            areaStorage.getUserArea()
-                .flowOn(ioDispatcher)
-                .collect{
-                    when(val response = getAllPetsUseCase(it.id)) {
-                        is ResponseState.Success -> handleSuccess(response.data)
-                        is ResponseState.Error -> handleError(response.isNetworkError)
-                    }
+            areaStorage.getUserArea().handleResult {
+                when(val response = getAllPetsUseCase(it.id)) {
+                    is ResponseState.Success -> handleSuccess(response.data)
+                    is ResponseState.Error -> handleError(response.isNetworkError)
                 }
+            }
         }
     }
 

@@ -30,3 +30,13 @@ fun Throwable.isNetworkException(): Boolean =
         is ProtocolException -> true
         else -> false
     }
+
+inline fun <T> ResponseState<T>.handleResult(
+    onError: (Boolean) -> Unit = {},
+    onSuccess: (T) -> Unit = {},
+) {
+    when (this) {
+        is ResponseState.Error -> onError(this.isNetworkError)
+        is ResponseState.Success -> onSuccess(this.data)
+    }
+}
