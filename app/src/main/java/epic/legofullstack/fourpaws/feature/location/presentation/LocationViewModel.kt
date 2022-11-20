@@ -15,6 +15,7 @@ import epic.legofullstack.fourpaws.core.di.DispatchersModule
 import epic.legofullstack.fourpaws.core.domain.model.Area
 import epic.legofullstack.fourpaws.core.domain.usecase.PreferenceDataStoreUseCase
 import epic.legofullstack.fourpaws.core.presentation.ResourcesProvider
+import epic.legofullstack.fourpaws.core.presentation.model.ErrorModel
 import epic.legofullstack.fourpaws.feature.base.BaseViewModel
 import epic.legofullstack.fourpaws.feature.base.OpenFragment
 import epic.legofullstack.fourpaws.feature.base.ShowDialog
@@ -70,8 +71,17 @@ class LocationViewModel @Inject constructor(
 
     private suspend fun areasHandleSuccess(areas: List<Area>) =
         withContext(mainDispatcher) {
-            currentContent = currentContent.copy(areas = areas)
-            content.value = currentContent
+            if(areas.isEmpty()) {
+                content.value = LocationViewState.Error(
+                    errorModel = ErrorModel(
+                        R.string.error_loading_areas,
+                        R.drawable.ic_sad
+                    )
+                )
+            } else {
+                currentContent = currentContent.copy(areas = areas)
+                content.value = currentContent
+            }
         }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)

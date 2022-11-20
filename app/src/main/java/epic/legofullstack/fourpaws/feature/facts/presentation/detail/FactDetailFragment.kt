@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.FragmentFactDetailBinding
@@ -56,6 +57,9 @@ class FactDetailFragment : BaseFragment(R.layout.fragment_fact_detail) {
             factText.text = fact.text
             Glide.with(this@FactDetailFragment)
                 .load(fact.imgUrl)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(R.drawable.ic_pets_paws_fill)
+                .centerCrop()
                 .error(R.drawable.ic_sad)
                 .into(factImg)
         }

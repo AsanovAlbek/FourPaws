@@ -59,6 +59,7 @@
     <string name="open_map_item_menu">Открыть карту</string>
     <string name="copy_item_menu">Скопировать адрес</string>
     <string name="copied">Скопировано</string>
+    <string name="error_loading_areas">Не удалось загрузить список областей</string>
 
 
 </resources>
