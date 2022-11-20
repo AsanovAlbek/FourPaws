@@ -1,21 +1,37 @@
 package epic.legofullstack.fourpaws.application.fragments
 
 import android.view.MenuItem
+import androidx.fragment.app.viewModels
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
+import epic.legofullstack.fourpaws.application.MainFragmentViewModel
+import epic.legofullstack.fourpaws.application.MainViewModel
+import epic.legofullstack.fourpaws.core.domain.model.Area
 import epic.legofullstack.fourpaws.databinding.FragmentMainBinding
 import epic.legofullstack.fourpaws.extensions.fragmentNavController
 import epic.legofullstack.fourpaws.extensions.navigateSafely
 import epic.legofullstack.fourpaws.extensions.refreshMenu
 
+@AndroidEntryPoint
 class MainFragment :
     BaseNavigationFragment(R.layout.fragment_main, R.id.nav_host_fragment_main) {
     private val bindingView by viewBinding(FragmentMainBinding::bind)
+    private val mainViewModel by viewModels<MainFragmentViewModel>()
 
     override fun setupNavigation() {
         bindingView.navViewMain.setupWithNavController(navController)
         setupToolbarMenu()
+        observe()
+    }
+
+    private fun observe() {
+        mainViewModel.area.observe(viewLifecycleOwner, ::titleArea)
+    }
+
+    private fun titleArea(area: Area) {
+        bindingView.mainToolbar.title = area.title
     }
 
     private fun setupToolbarMenu() {

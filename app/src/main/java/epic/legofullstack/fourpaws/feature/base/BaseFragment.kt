@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.LayoutRes
@@ -32,6 +33,9 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
             is StartActivityForMap -> startActivityForMap(command.longitude, command.latitude)
             is NavigateUp -> navigateUp(command)
             is CopyText -> copyText(command)
+            is StartTelephone -> startTelephone(command.shelterPhoneNumber)
+            is StartEmail -> startEmail(command.petName, command.shelterEmail)
+            is SharePet -> startSharePet(command.uriText)
         }
     }
 
@@ -80,6 +84,48 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uri_market))))
         }
     }
+
+    private fun startTelephone(phoneNumber: String) {
+        // todo можно завернуть в try-catch и ловить ошибки
+        val uri = Uri.parse(getString(R.string.tel_uri, phoneNumber))
+        val intent = Intent(Intent.ACTION_DIAL, uri)
+        if (intent.isIntentSafeAndReady()) {
+            startActivity(intent)
+        } else {
+            Log.i("basef", "звонок не прошёл if")
+        }
+    }
+
+    private fun startEmail(petName: String, email: String) {
+        //val uri = Uri.parse(getString(R.string.mail_uri, email))
+        val uri = Uri.parse("mailto:no75884@gmail.com")
+        val intent = Intent(Intent.ACTION_SENDTO, uri).apply {
+            type = getString(R.string.text_type)
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.default_message_title))
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.default_message) + " $petName")
+        }
+        if (intent.isIntentSafeAndReady()) {
+            startActivity(intent)
+        } else {
+            Log.i("basef", "сообщение не прошло if")
+        }
+    }
+
+    private fun startSharePet(deeplinkUri: String) {
+        val sharedIntent = Intent(Intent.ACTION_SEND).apply {
+            type = getString(R.string.text_type)
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_default_text) + "\n$deeplinkUri")
+        }
+        if (sharedIntent.isIntentSafeAndReady()) {
+            startActivity(sharedIntent)
+        } else {
+            Log.i("basef", "Шаринг не прошёл if")
+        }
+    }
+
+    private fun Intent.isIntentSafeAndReady(): Boolean =
+        resolveActivity(requireActivity().packageManager) != null &&
+                requireActivity().packageManager.queryIntentActivities(this, 0).size > 0
 
     private fun copyText(data: CopyText) {
         val clipboard = getSystemService(requireContext(), ClipboardManager::class.java)

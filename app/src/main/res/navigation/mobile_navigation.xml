@@ -39,6 +39,9 @@
         <argument
             android:name="clickedPetId"
             app:argType="integer" />
+        <deepLink
+            app:uri="https://epic.fourpaws.ru.petdetail/?id={clickedPetId}"
+            app:action="android.intent.action.VIEW" />
     </fragment>
 
     <fragment
