@@ -1,6 +1,5 @@
 package epic.legofullstack.fourpaws.feature.detail.presentation.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -65,7 +64,7 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
             sharedPostButton.setOnClickListener {
                 viewModel.commands.value = SharePet(
                     petId = pet.id,
-                    uriText = "https://epic.fourpaws.ru/?id=${pet.id}"
+                   uriText = getString(R.string.url_pet_detail,pet.id)
                 )
             }
 

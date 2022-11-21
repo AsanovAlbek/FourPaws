@@ -40,7 +40,7 @@
             android:name="clickedPetId"
             app:argType="integer" />
         <deepLink
-            app:uri="https://epic.fourpaws.ru.petdetail/?id={clickedPetId}"
+            app:uri="epic.fourpaws.ru/petdetail/{clickedPetId}"
             app:action="android.intent.action.VIEW" />
     </fragment>
 

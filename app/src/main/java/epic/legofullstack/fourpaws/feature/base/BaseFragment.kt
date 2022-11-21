@@ -4,19 +4,17 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import epic.legofullstack.fourpaws.extensions.fragmentNavController
 import epic.legofullstack.fourpaws.R
+import epic.legofullstack.fourpaws.extensions.fragmentNavController
 import epic.legofullstack.fourpaws.extensions.navigateSafely
 
 @AndroidEntryPoint
@@ -78,7 +76,7 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
             Uri.parse(getString(R.string.uri_geo, latitude, longitude))
         )
         intent.setPackage(getString(R.string.package_maps))
-        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+        if (intent.isIntentSafeAndReady()) {
             startActivity(intent)
         } else {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uri_market))))
@@ -86,28 +84,40 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
     }
 
     private fun startTelephone(phoneNumber: String) {
-        // todo можно завернуть в try-catch и ловить ошибки
         val uri = Uri.parse(getString(R.string.tel_uri, phoneNumber))
         val intent = Intent(Intent.ACTION_DIAL, uri)
         if (intent.isIntentSafeAndReady()) {
             startActivity(intent)
         } else {
-            Log.i("basef", "звонок не прошёл if")
+            showMaterialAlertDialog(
+                ShowDialog(
+                    getString(R.string.error),
+                    getString(R.string.unknown_error),
+                    getString(R.string.ok),
+                    { navigateUp(NavigateUp(fragmentNavController())) }
+                )
+            )
         }
     }
 
     private fun startEmail(petName: String, email: String) {
-        //val uri = Uri.parse(getString(R.string.mail_uri, email))
-        val uri = Uri.parse("mailto:no75884@gmail.com")
-        val intent = Intent(Intent.ACTION_SENDTO, uri).apply {
-            type = getString(R.string.text_type)
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse(getString(R.string.mail_uri))
+            putExtra(Intent.EXTRA_EMAIL,  arrayOf( email))
             putExtra(Intent.EXTRA_SUBJECT, getString(R.string.default_message_title))
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.default_message) + " $petName")
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.default_message, petName))
         }
         if (intent.isIntentSafeAndReady()) {
             startActivity(intent)
         } else {
-            Log.i("basef", "сообщение не прошло if")
+            showMaterialAlertDialog(
+                ShowDialog(
+                    getString(R.string.error),
+                    getString(R.string.message_setup_email),
+                    getString(R.string.ok),
+                    { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uri_market_email)))) }
+                )
+            )
         }
     }
 
@@ -117,15 +127,22 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
             putExtra(Intent.EXTRA_TEXT, getString(R.string.share_default_text) + "\n$deeplinkUri")
         }
         if (sharedIntent.isIntentSafeAndReady()) {
-            startActivity(sharedIntent)
+            startActivity(Intent.createChooser(sharedIntent, getString(R.string.share_choose_title)))
         } else {
-            Log.i("basef", "Шаринг не прошёл if")
+            showMaterialAlertDialog(
+                ShowDialog(
+                    getString(R.string.error),
+                    getString(R.string.not_possible_share),
+                    getString(R.string.ok),
+                    { navigateUp(NavigateUp(fragmentNavController())) }
+                )
+            )
         }
     }
 
     private fun Intent.isIntentSafeAndReady(): Boolean =
-        resolveActivity(requireActivity().packageManager) != null &&
-                requireActivity().packageManager.queryIntentActivities(this, 0).size > 0
+        resolveActivity(requireActivity().packageManager) != null
+                && requireActivity().packageManager.queryIntentActivities(this, 0).size > NOT_PACKAGE
 
     private fun copyText(data: CopyText) {
         val clipboard = getSystemService(requireContext(), ClipboardManager::class.java)
@@ -134,5 +151,9 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
         // если версия android меньше 12
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
             showToast(ShowToast(getString(R.string.copied)))
+    }
+
+    companion object{
+        private const val NOT_PACKAGE = 0
     }
 }
