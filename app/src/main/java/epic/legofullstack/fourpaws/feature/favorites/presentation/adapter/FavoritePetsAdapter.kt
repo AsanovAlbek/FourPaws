@@ -20,7 +20,7 @@ class FavoritePetsAdapter(
 
         fun bind(favorite: FavoritePet) {
             bindItem.apply {
-                city.cityName.text = favorite.city
+                city.text = favorite.city
                 petName.text = favorite.name
                 root.setOnClickListener { itemClick(favorite.id) }
                 setGenderIcon(favorite)

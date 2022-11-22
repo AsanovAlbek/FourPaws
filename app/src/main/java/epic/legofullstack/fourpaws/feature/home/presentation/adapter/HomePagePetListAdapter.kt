@@ -23,7 +23,7 @@ class HomePagePetListAdapter(
         fun bind(pet : Pet) {
 
             binding.apply {
-                city.cityName.text = pet.city
+                city.text = pet.city
                 petName.text = pet.name
                 root.setOnClickListener { itemClick(pet.id) }
                 setGenderIcon(pet)

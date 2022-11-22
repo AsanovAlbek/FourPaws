@@ -75,8 +75,10 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
     }
 
     private fun refreshUi(state: UiState) {
+        // TODO: утановить loading  по центру
         detailBinding.apply {
             detailContent.isVisible = state is UiState.Content
+            loadingProgress.isVisible = state is UiState.Loading
         }
     }
 
