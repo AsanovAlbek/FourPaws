@@ -3,6 +3,7 @@ package epic.legofullstack.fourpaws.feature.home.data.storage
 import epic.legofullstack.fourpaws.feature.home.data.mapper.toHome
 import epic.legofullstack.fourpaws.feature.home.data.model.HomePetDto
 import epic.legofullstack.fourpaws.network.firebase.data.FirebaseDataSource
+import epic.legofullstack.fourpaws.network.firebase.data.PetFilter
 import epic.legofullstack.fourpaws.network.firebase.data.model.PetDto
 
 /**
@@ -22,9 +23,11 @@ class HomePageDataSource(
             resultClassName = PetDto::class.java,
         ).map { it.toHome() }
 
-
     companion object {
         private const val FIELD_AREA_ID = "areaId"
         private const val PET_COLLECTION = "pet"
     }
+
+    suspend fun getPetsByFilter(areaId: Int, petFilter: PetFilter?) =
+        remoteSource.petFilter(areaId = areaId, filter = petFilter)
 }

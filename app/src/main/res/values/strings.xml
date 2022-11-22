@@ -43,14 +43,18 @@
     <string name="elderly">Пожилой</string>
     <string name="young">Молодой</string>
     <string name="unknown_age">Неизвестно</string>
+    <string name="baby_eng">baby</string>
+    <string name="young_eng">young</string>
+    <string name="adult_eng">adult</string>
+    <string name="elderly_eng">elderly</string>
     <string name="sterilized">sterilized</string>
     <string name="vaccinated">vaccinated</string>
     <string name="friendly">friendly</string>
     <string name="accustomed_tray">accustomedTray</string>
-    <string name="ru_sterilised">стерилизован</string>
-    <string name="ru_vaccinated">привит</string>
-    <string name="ru_friendly">дужелюбен</string>
-    <string name="ru_accustomed_tray">приучен к лотку</string>
+    <string name="ru_sterilised">Стерилизован</string>
+    <string name="ru_vaccinated">Привит</string>
+    <string name="ru_friendly">Дружелюбен</string>
+    <string name="ru_accustomed_tray">Приучен к лотку</string>
     <string name="male">male</string>
     <string name="female">female</string>
     <string name="ru_male">мальчик</string>
@@ -60,6 +64,17 @@
     <string name="copy_item_menu">Скопировать адрес</string>
     <string name="copied">Скопировано</string>
     <string name="error_loading_areas">Не удалось загрузить список областей</string>
-
+    <string name="cats">Кошки</string>
+    <string name="dogs">Собаки</string>
+    <string name="boys">Мальчики</string>
+    <string name="girls">Девочки</string>
+    <string name="other_params">Прочее</string>
+    <string name="apply">Применить</string>
+    <string name="area">Регион</string>
+    <string name="pet_title">Питомец</string>
+    <string name="male_title">Пол</string>
+    <string name="age_title">Возраст</string>
+    <string name="cat">CAT</string>
+    <string name="dog">DOG</string>
 
 </resources>
