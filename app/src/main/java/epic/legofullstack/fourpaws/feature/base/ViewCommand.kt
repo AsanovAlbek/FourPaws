@@ -1,5 +1,6 @@
 package epic.legofullstack.fourpaws.feature.base
 
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.navigation.NavController
@@ -44,3 +45,17 @@ data class CopyText(
     val label: String,
     val text: String
 ) : ViewCommand
+
+data class StartTelephone(
+    val shelterPhoneNumber: String = ""
+): ViewCommand
+
+data class StartEmail(
+    val petName: String = "",
+    val shelterEmail: String = ""
+): ViewCommand
+
+data class SharePet(
+    val petId: Int,
+    val uriText: String = ""
+): ViewCommand

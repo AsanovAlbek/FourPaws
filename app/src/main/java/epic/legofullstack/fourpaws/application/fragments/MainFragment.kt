@@ -3,12 +3,14 @@ package epic.legofullstack.fourpaws.application.fragments
 import android.view.MenuItem
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.FragmentMainBinding
 import epic.legofullstack.fourpaws.extensions.fragmentNavController
 import epic.legofullstack.fourpaws.extensions.navigateSafely
 import epic.legofullstack.fourpaws.extensions.refreshMenu
 
+@AndroidEntryPoint
 class MainFragment :
     BaseNavigationFragment(R.layout.fragment_main, R.id.nav_host_fragment_main) {
     private val bindingView by viewBinding(FragmentMainBinding::bind)

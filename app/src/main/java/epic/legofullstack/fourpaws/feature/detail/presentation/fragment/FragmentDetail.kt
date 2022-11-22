@@ -11,7 +11,10 @@ import epic.legofullstack.fourpaws.databinding.FragmentPetDetailBinding
 import epic.legofullstack.fourpaws.extensions.fragmentNavController
 import epic.legofullstack.fourpaws.feature.base.BaseFragment
 import epic.legofullstack.fourpaws.feature.base.NavigateUp
+import epic.legofullstack.fourpaws.feature.base.SharePet
 import epic.legofullstack.fourpaws.feature.base.ShowDialog
+import epic.legofullstack.fourpaws.feature.base.StartEmail
+import epic.legofullstack.fourpaws.feature.base.StartTelephone
 import epic.legofullstack.fourpaws.feature.detail.domain.model.PetDetail
 import epic.legofullstack.fourpaws.feature.detail.presentation.adapter.ImagesSlider
 import epic.legofullstack.fourpaws.feature.detail.presentation.dto.UiState
@@ -48,12 +51,21 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
     private fun clickListeners(pet: PetDetail) {
         detailBinding.apply {
             callButton.setOnClickListener {
+                viewModel.commands.value = StartTelephone(shelterPhoneNumber = pet.shelter.phone)
             }
 
             sendEmailButton.setOnClickListener {
+                viewModel.commands.value = StartEmail(
+                    petName = pet.name,
+                    shelterEmail = pet.shelter.email
+                )
             }
 
             sharedPostButton.setOnClickListener {
+                viewModel.commands.value = SharePet(
+                    petId = pet.id,
+                   uriText = getString(R.string.url_pet_detail,pet.id)
+                )
             }
 
             starButton.setOnClickListener {
@@ -63,8 +75,10 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
     }
 
     private fun refreshUi(state: UiState) {
+        // TODO: утановить loading  по центру
         detailBinding.apply {
             detailContent.isVisible = state is UiState.Content
+            loadingProgress.isVisible = state is UiState.Loading
         }
     }
 
