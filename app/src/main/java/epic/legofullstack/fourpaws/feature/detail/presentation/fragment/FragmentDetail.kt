@@ -41,7 +41,7 @@ class FragmentDetail : BaseFragment(R.layout.fragment_pet_detail) {
 
     private fun changeStarButton(isFavorite: Boolean) {
         val alreadyIsFavoriteColor = resources.getColor(R.color.star_button, null)
-        val notFavoriteColor = resources.getColor(R.color.black, null)
+        val notFavoriteColor = resources.getColor(R.color.white, null)
 
         detailBinding.starButton.icon.setTint(
             if (isFavorite) notFavoriteColor else alreadyIsFavoriteColor

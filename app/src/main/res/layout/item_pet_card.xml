@@ -6,72 +6,67 @@
     android:layout_height="150dp"
     android:layout_marginVertical="@dimen/margin_8"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="8dp"
-   >
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
 
-            <ImageView
-                android:id="@+id/picture"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                tools:srcCompat="@tools:sample/avatars" />
+        <TextView
+            android:id="@+id/petName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Песик Гав"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/picture"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/card_element_margin_10"
-                android:layout_marginTop="@dimen/card_element_margin_10"
-                android:orientation="vertical"
-                android:padding="@dimen/card_element_margin_10">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/white_smoke"
+            android:text="Рязань"
+            app:layout_constraintStart_toEndOf="@+id/maleChip"
+            app:layout_constraintTop_toBottomOf="@+id/petName" />
 
-                <TextView
-                    android:id="@+id/petName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_6"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_20"
-                    android:textStyle="bold"
-                    android:text="Песик Гав"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/maleChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:chipIcon="@drawable/ic_male"
+            app:chipIconTint="@color/black"
+            app:chipBackgroundColor="@color/white_smoke"
+            app:layout_constraintStart_toStartOf="@+id/petName"
+            app:layout_constraintTop_toBottomOf="@+id/petName" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/city"
-                        android:layout_width="91dp"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/white_smoke"
-                        android:text="Рязань" />
-
-                    <!--                <include-->
-                    <!--                    android:id="@+id/city"-->
-                    <!--                    layout="@layout/item_city" />-->
-                    <ImageView
-                        android:id="@+id/imgGender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginStart="@dimen/margin_8"
-                        android:backgroundTint="@color/purple_200"
-                        android:src="@drawable/img_male" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <!--<ImageView
+            android:id="@+id/imgGender"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_male"
+            app:layout_constraintBottom_toBottomOf="@+id/city"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.075"
+            app:layout_constraintStart_toEndOf="@+id/city"
+            app:layout_constraintTop_toTopOf="@+id/city" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

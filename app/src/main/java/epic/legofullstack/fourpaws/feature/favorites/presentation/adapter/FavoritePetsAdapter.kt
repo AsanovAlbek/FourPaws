@@ -38,9 +38,9 @@ class FavoritePetsAdapter(
         }
 
         private fun setGenderIcon(pet: FavoritePet) {
-            bindItem.imgGender.setImageResource(
+            bindItem.maleChip.setChipIconResource(
                 if (pet.gender == MALE) {
-                    R.drawable.img_male
+                    R.drawable.ic_male
                 } else {
                     R.drawable.ic_female
                 }

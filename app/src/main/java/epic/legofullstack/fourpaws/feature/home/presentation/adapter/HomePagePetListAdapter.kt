@@ -41,9 +41,9 @@ class HomePagePetListAdapter(
         }
 
         private fun setGenderIcon(pet: Pet) {
-            binding.imgGender.setImageResource(
+            binding.maleChip.setChipIconResource(
                 if (pet.gender == MALE) {
-                    R.drawable.img_male
+                    R.drawable.ic_male
                 } else {
                     R.drawable.ic_female
                 }

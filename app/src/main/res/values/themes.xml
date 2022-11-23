@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.FourPaws" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/teal_50</item>
-        <item name="colorPrimaryVariant">@color/teal_50</item>
+        <item name="colorPrimary">@color/primary_green</item>
+        <item name="colorPrimaryVariant">@color/status_bar_green</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -19,6 +19,12 @@
         <item name="android:layout_height">@dimen/error_icon_size</item>
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateTintMode">src_atop</item>
-        <item name="android:indeterminateTint">@color/black</item>
+
+    </style>
+
+    <style name="FourPawsToolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="iconTint">@color/white</item>
+        <item name="iconSize">16dp</item>
     </style>
 </resources>
