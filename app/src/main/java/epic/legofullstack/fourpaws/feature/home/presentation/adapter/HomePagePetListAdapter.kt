@@ -23,7 +23,7 @@ class HomePagePetListAdapter(
         fun bind(pet : Pet) {
 
             binding.apply {
-                city.cityName.text = pet.city
+                city.text = pet.city
                 petName.text = pet.name
                 root.setOnClickListener { itemClick(pet.id) }
                 setGenderIcon(pet)
@@ -41,9 +41,9 @@ class HomePagePetListAdapter(
         }
 
         private fun setGenderIcon(pet: Pet) {
-            binding.imgGender.setImageResource(
+            binding.maleChip.setChipIconResource(
                 if (pet.gender == MALE) {
-                    R.drawable.img_male
+                    R.drawable.ic_male
                 } else {
                     R.drawable.ic_female
                 }

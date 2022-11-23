@@ -20,7 +20,7 @@ class FavoritePetsAdapter(
 
         fun bind(favorite: FavoritePet) {
             bindItem.apply {
-                city.cityName.text = favorite.city
+                city.text = favorite.city
                 petName.text = favorite.name
                 root.setOnClickListener { itemClick(favorite.id) }
                 setGenderIcon(favorite)
@@ -38,9 +38,9 @@ class FavoritePetsAdapter(
         }
 
         private fun setGenderIcon(pet: FavoritePet) {
-            bindItem.imgGender.setImageResource(
+            bindItem.maleChip.setChipIconResource(
                 if (pet.gender == MALE) {
-                    R.drawable.img_male
+                    R.drawable.ic_male
                 } else {
                     R.drawable.ic_female
                 }

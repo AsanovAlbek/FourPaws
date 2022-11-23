@@ -10,7 +10,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="white_smoke">#F1F1F1</color>
-    <color name="star_button">#E40C0C</color>
+    <color name="star_button">#EDDB36</color>
+    <color name="primary_green">#5DB075</color>
+    <color name="status_bar_green">#8DCFA3</color>
     <color name="deep_pink">#FF1493</color>
     <color name="king_blue">#4169E1</color>
 </resources>

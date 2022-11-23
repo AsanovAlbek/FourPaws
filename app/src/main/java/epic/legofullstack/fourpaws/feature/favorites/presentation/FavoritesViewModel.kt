@@ -80,5 +80,4 @@ class FavoritesViewModel @Inject constructor(
             commands.value = OpenFragment(directions = action)
         }
     }
-
 }

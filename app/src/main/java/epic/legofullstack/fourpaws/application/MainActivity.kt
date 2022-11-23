@@ -1,5 +1,6 @@
 package epic.legofullstack.fourpaws.application
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -59,6 +60,11 @@ class MainActivity : AppCompatActivity() {
             navGraph.setStartDestination(R.id.nav_main_fragment)
         }
         navController.graph = navGraph
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navController.handleDeepLink(intent)
     }
 
     companion object {
