@@ -3,6 +3,8 @@ package epic.legofullstack.fourpaws.network.firebase.data
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import epic.legofullstack.fourpaws.core.data.model.AreaDto
+import epic.legofullstack.fourpaws.core.data.model.PetFilterDto
+import epic.legofullstack.fourpaws.network.firebase.data.model.Age
 import epic.legofullstack.fourpaws.network.firebase.data.model.PetDto
 import epic.legofullstack.fourpaws.network.firebase.data.model.PetPreviewDto
 import epic.legofullstack.fourpaws.network.firebase.data.model.ShelterDto
@@ -51,7 +53,7 @@ class FirebaseDataSource(private val firestore: FirebaseFirestore) {
                 )
             }
 
-    suspend fun petFilter(areaId: Int, filter: PetFilter? = null): List<PetPreviewDto> {
+    suspend fun petFilter(areaId: Int, filter: PetFilterDto? = null): List<PetPreviewDto> {
         var queryPet: Query = firestore.collection(PET_COLLECTION)
             .whereEqualTo("areaId", areaId)
 
@@ -59,14 +61,11 @@ class FirebaseDataSource(private val firestore: FirebaseFirestore) {
             if (filter.petType != null) {
                 queryPet = queryPet.whereEqualTo("petType", filter.petType)
             }
-            if (filter.age != null) {
+            if (filter.age != null && !filter.age.equals(Age.UNKNOWN.name)) {
                 queryPet = queryPet.whereEqualTo("age", filter.age)
             }
             if (filter.gender != null && filter.gender.trim().isNotEmpty()) {
                 queryPet = queryPet.whereEqualTo("gender", filter.gender)
-            }
-            if (filter.city != null && filter.city.trim().isNotEmpty()) {
-                queryPet = queryPet.whereEqualTo("city", filter.city)
             }
             if (filter.characteristics != null && filter.characteristics.isNotEmpty()) {
                 queryPet = queryPet.whereArrayContainsAny("characteristics", filter.characteristics)

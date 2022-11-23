@@ -3,19 +3,19 @@ package epic.legofullstack.fourpaws.feature.filter.presentation
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import epic.legofullstack.fourpaws.R
+import epic.legofullstack.fourpaws.core.domain.model.Area
 import epic.legofullstack.fourpaws.databinding.FragmentFilterPetBinding
 import epic.legofullstack.fourpaws.feature.base.BaseFragment
-import epic.legofullstack.fourpaws.feature.filter.domain.model.PetFilterModel
 import epic.legofullstack.fourpaws.feature.filter.presentation.adapter.AreaAdapter
 import epic.legofullstack.fourpaws.feature.filter.presentation.state.UiState
+import epic.legofullstack.fourpaws.network.firebase.data.model.Age
+import epic.legofullstack.fourpaws.network.firebase.data.model.PetType
 
 @AndroidEntryPoint
 class FilterPetFragment : BaseFragment(R.layout.fragment_filter_pet) {
@@ -31,22 +31,16 @@ class FilterPetFragment : BaseFragment(R.layout.fragment_filter_pet) {
 
     private fun observe() {
         filterViewModel.apply {
-            areaListState.observe(viewLifecycleOwner, ::handleState)
-            filter.observe(viewLifecycleOwner, ::handleFilter)
+            filterState.observe(viewLifecycleOwner, ::handleState)
             commands.observe(viewLifecycleOwner, ::handleCommand)
         }
     }
 
-    private fun handleFilter(petFilterModel: PetFilterModel) {
-        // todo(Возможно не придётся за ним наблюдать отсюда)
-    }
-
     private fun handleState(uiState: UiState) {
         refreshUi(uiState)
-        when(uiState) {
+        when (uiState) {
             is UiState.Content -> uiState.handleContent()
-            is UiState.Error -> uiState.handleError()
-            is UiState.Loading -> Log.i("filter", "Loading")
+            is UiState.Loading -> Log.i(TAG, "Loading")
         }
     }
 
@@ -61,51 +55,73 @@ class FilterPetFragment : BaseFragment(R.layout.fragment_filter_pet) {
         areaAdapter = AreaAdapter(
             context = bindingFilter.root.context,
             layoutResourceId = R.layout.auto_complete_text_view_item,
-            areas = data
+            areas = areas
         )
-        bindingFilter.searchAreaField.setAdapter(areaAdapter)
-    }
+        bindingFilter.apply {
+            searchAreaField.apply {
+                setAdapter(areaAdapter)
+                setText(userArea, false)
+            }
 
-    private fun UiState.Error.handleError() {
-        // todo(Позже сам прикручу обработку ошибки)
+            // установить значения фильтра
+            filter.apply {
+                if (petType != null) {
+                    petTypeToggles.check(if (petType == PetType.DOG) dogToggle.id else catToggle.id)
+                }
+                if (gender != null && gender.isNotEmpty()) {
+                    maleToggles.check(if (gender.equals(getString(R.string.male))) maleToggle.id else femaleToggle.id)
+                }
+                if (age != null && age != Age.UNKNOWN) {
+                    when (age) {
+                        Age.BABY -> ageChipGroup.check(babyChip.id)
+                        Age.ADULT -> ageChipGroup.check(adultChip.id)
+                        Age.YOUNG -> ageChipGroup.check(youngChip.id)
+                        Age.ELDERLY -> ageChipGroup.check(elderlyChip.id)
+                        Age.UNKNOWN -> {}
+                    }
+                }
+                if (characteristics != null && characteristics.isNotEmpty()) {
+                    characteristics.forEach {
+                        when (it) {
+                            getString(R.string.sterilized) -> othersChipGroup.check(sterilizedChip.id)
+                            getString(R.string.accustomed_tray) -> othersChipGroup.check(accustomedTrayChip.id)
+                            getString(R.string.vaccinated) -> othersChipGroup.check(vaccinatedChip.id)
+                            getString(R.string.friendly) -> othersChipGroup.check(friendlyChip.id)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun listeners() {
         bindingFilter.apply {
             applyButton.setOnClickListener { filterViewModel.applyFilter() }
-            petTypeToggles.addOnButtonCheckedListener(::buttonsCheckedListener)
-            maleToggles.addOnButtonCheckedListener(::buttonsCheckedListener)
+            petTypeToggles.setOnCheckedStateChangeListener(::chipsChangeListener)
+            maleToggles.setOnCheckedStateChangeListener(::chipsChangeListener)
             ageChipGroup.setOnCheckedStateChangeListener(::chipsChangeListener)
             othersChipGroup.setOnCheckedStateChangeListener(::chipsChangeListener)
-            bindingFilter.searchAreaField.setOnItemClickListener { adapterView, _, position, _ ->
-                // todo(Дописать выбор Area и сразу сохранять)
-                //filterViewModel.saveArea()
+            searchAreaField.setOnItemClickListener { adapterView, _, position, _ ->
+                val currentArea = adapterView.adapter.getItem(position) as Area
+                filterViewModel.setArea(currentArea)
+                searchAreaField.setText(currentArea.title)
             }
-
         }
     }
 
     private fun chipsChangeListener(chipGroup: ChipGroup, checkedChipsIds: MutableList<Int>) {
-        if (chipGroup == bindingFilter.othersChipGroup) {
-            filterViewModel.filterByCharacteristics(chipGroup, checkedChipsIds)
-        } else if (chipGroup == bindingFilter.ageChipGroup) {
-            filterViewModel.filterByAge(chipGroup)
+        when (chipGroup) {
+            bindingFilter.othersChipGroup -> filterViewModel.filterByCharacteristics(
+                chipGroup,
+                checkedChipsIds
+            )
+            bindingFilter.ageChipGroup -> filterViewModel.updateFilter(FilterViewModel.AGE_FIELD, chipGroup)
+            bindingFilter.petTypeToggles -> filterViewModel.updateFilter(FilterViewModel.PET_TYPE_FIELD, chipGroup)
+            bindingFilter.maleToggles -> filterViewModel.updateFilter(FilterViewModel.GENDER_FIELD, chipGroup)
         }
     }
 
-    private fun buttonsCheckedListener(
-        group: MaterialButtonToggleGroup,
-        toggleButtonId: Int,
-        isChecked: Boolean
-    ) {
-        if (isChecked) {
-            when(toggleButtonId) {
-                R.id.catToggle -> filterViewModel.filterByPetType(resources.getString(R.string.cat))
-                R.id.dogToggle -> filterViewModel.filterByPetType(resources.getString(R.string.dog))
-                R.id.maleToggle -> filterViewModel.filterByGender(resources.getString(R.string.male))
-                R.id.femaleToggle -> filterViewModel.filterByGender(resources.getString(R.string.female))
-            }
-        }
+    companion object {
+        private const val TAG = "FilterPetFragment-FP"
     }
-
 }

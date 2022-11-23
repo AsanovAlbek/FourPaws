@@ -19,9 +19,6 @@
         <action
             android:id="@+id/action_navigation_home_to_filterPetFragment"
             app:destination="@id/filterMenuItem" />
-        <argument
-            android:name="filter"
-            app:argType="epic.legofullstack.fourpaws.feature.filter.domain.model.PetFilterModel" />
     </fragment>
 
     <fragment
@@ -60,7 +57,8 @@
     <fragment
         android:id="@+id/factDetailFragment"
         android:name="epic.legofullstack.fourpaws.feature.facts.presentation.detail.FactDetailFragment"
-        android:label="@string/title_interesting_facts" >
+        android:label="@string/title_interesting_facts"
+        tools:layout="@layout/fragment_interesting_facts">
         <argument
             android:name="factId"
             app:argType="integer"
@@ -79,7 +77,8 @@
     <fragment
         android:id="@+id/filterMenuItem"
         android:name="epic.legofullstack.fourpaws.feature.filter.presentation.FilterPetFragment"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_filter_pet">
         <action
             android:id="@+id/action_filterMenuItem_to_navigation_home"
             app:destination="@id/navigation_home" />

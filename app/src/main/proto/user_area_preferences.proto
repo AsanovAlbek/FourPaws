@@ -7,3 +7,12 @@ message UserAreaPreferences {
   int32 id = 1;
   string title = 2;
 }
+
+message PetFilterPreferences{
+
+  UserAreaPreferences area = 1;
+  string petType = 3;
+  string gender = 4;
+  string age = 5;
+  repeated string characteristics = 6;
+}

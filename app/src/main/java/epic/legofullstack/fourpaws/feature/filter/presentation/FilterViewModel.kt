@@ -1,4 +1,5 @@
 package epic.legofullstack.fourpaws.feature.filter.presentation
+
 import android.content.Context
 import androidx.core.view.children
 import androidx.lifecycle.LiveData
@@ -10,116 +11,113 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.core.di.DispatchersModule
 import epic.legofullstack.fourpaws.core.domain.model.Area
+import epic.legofullstack.fourpaws.core.domain.model.PetFilter
+import epic.legofullstack.fourpaws.core.domain.usecase.PetFilterDataStoreUseCase
 import epic.legofullstack.fourpaws.core.domain.usecase.PreferenceDataStoreUseCase
 import epic.legofullstack.fourpaws.core.presentation.ResourcesProvider
 import epic.legofullstack.fourpaws.feature.base.BaseViewModel
 import epic.legofullstack.fourpaws.feature.base.OpenFragment
 import epic.legofullstack.fourpaws.feature.base.ShowSnackbar
+import epic.legofullstack.fourpaws.feature.filter.data.models.toFilterModel
+import epic.legofullstack.fourpaws.feature.filter.data.models.toSaveFilter
 import epic.legofullstack.fourpaws.feature.filter.domain.model.PetFilterModel
 import epic.legofullstack.fourpaws.feature.filter.domain.usecase.GetAreasUseCase
 import epic.legofullstack.fourpaws.feature.filter.presentation.state.UiState
 import epic.legofullstack.fourpaws.network.errorhandle.ResponseState
+import epic.legofullstack.fourpaws.network.firebase.data.model.Age
+import epic.legofullstack.fourpaws.network.firebase.data.model.PetType
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @HiltViewModel
-class FilterViewModel(
+class FilterViewModel @Inject constructor(
     private val getAreasUseCase: GetAreasUseCase,
-    private val saveAreaUseCase: PreferenceDataStoreUseCase,
+    private val areaDataStoreUseCase: PreferenceDataStoreUseCase,
+    private val filterDataStoreUseCase: PetFilterDataStoreUseCase,
     @DispatchersModule.IoDispatcher private val io: CoroutineDispatcher,
     @DispatchersModule.MainDispatcher private val main: CoroutineDispatcher,
     private val resourcesProvider: ResourcesProvider
-): BaseViewModel() {
-
-    private val _filter = MutableLiveData<PetFilterModel>()
-    val filter: LiveData<PetFilterModel> get() = _filter
+) : BaseViewModel() {
     private var tempFilter = PetFilterModel()
 
-    private val content = MutableLiveData<UiState>()
-    val areaListState: LiveData<UiState> get() = content
+    private val content = MutableLiveData<UiState>(UiState.Loading)
+    private var currentContent = UiState.Content()
+    val filterState: LiveData<UiState> get() = content
 
-    fun getAreas() {
+    init {
         viewModelScope.launch {
             content.value = UiState.Loading
             withContext(io) {
-                when(val areas = getAreasUseCase()) {
-                    is ResponseState.Success -> handleSuccess(areas.data)
-                    is ResponseState.Error -> handleError()
+                val areas = async { getAreasUseCase() }.await()
+                val userArea = async { areaDataStoreUseCase.getUserArea() }.await()
+                val filterPet = async { filterDataStoreUseCase.getPetFilter() }.await()
+
+                if (areas is ResponseState.Success && userArea is ResponseState.Success && filterPet is ResponseState.Success) {
+                    handleSuccess(areas.data, userArea.data, filterPet.data)
+                } else {
+                    handleError(resourcesProvider.getString(R.string.error_reading_data))
                 }
             }
         }
     }
 
-    private suspend fun handleError() {
+    private suspend fun handleError(error: String) {
         withContext(main) {
             commands.value = ShowSnackbar(
-                text = resourcesProvider.getString(R.string.error_loading_areas)
+                text = error
             )
+            content.value = currentContent
         }
     }
 
-    private suspend fun handleSuccess(data: List<Area>) {
+    private suspend fun handleSuccess(
+        areas: List<Area>,
+        currentUserArea: Area,
+        currentFilterPet: PetFilter
+    ) {
         withContext(main) {
-            if (data.isEmpty()) {
+            if (areas.isEmpty()) {
                 commands.value = ShowSnackbar(
                     text = resourcesProvider.getString(R.string.error_loading_areas)
                 )
             }
-            content.value = UiState.Content(data)
+            var filter = currentFilterPet
+            // filter isEmpty
+            if (currentFilterPet.area.id == AREA_ID_DEFAULT) {
+                filter = currentFilterPet.copy(area = currentUserArea)
+            }
+            tempFilter = filter.toFilterModel()
+            currentContent = currentContent.copy(
+                areas = areas,
+                userArea = currentUserArea.title,
+                filter = tempFilter
+            )
+            content.value = currentContent
         }
     }
 
-    fun filterByAreaId(areaId: Int = 0) {
+    fun setArea(area: Area) {
         viewModelScope.launch {
             withContext(main) {
-                if (areaId != 0) {
-                    tempFilter = tempFilter.copy(areaId = areaId)
-                    _filter.value = tempFilter
-                }
+                tempFilter = tempFilter.copy(area = area)
             }
         }
     }
 
-    fun saveArea(area: Area) {
-        viewModelScope.launch {
-            withContext(io) {
-                saveAreaUseCase.saveUserArea(area)
-            }
-        }
-    }
-
-    fun filterByPetType(petType: String) {
-        viewModelScope.launch {
-            withContext(main) {
-                if (petType.isNotEmpty()) {
-                    tempFilter = tempFilter.copy(petType = petType)
-                    _filter.value = tempFilter
-                }
-            }
-        }
-    }
-
-    fun filterByGender(gender: String) {
-        viewModelScope.launch {
-            withContext(main) {
-                if (gender.isNotEmpty()) {
-                    tempFilter = tempFilter.copy(gender = gender)
-                    _filter.value = tempFilter
-                }
-            }
-        }
-    }
-
-    fun filterByAge(chipGroup: ChipGroup) {
+    fun updateFilter(typeField: String, chipGroup: ChipGroup) {
         viewModelScope.launch {
             withContext(main) {
                 val checkedChip =
                     chipGroup.children.firstOrNull { it.id == chipGroup.checkedChipId } as Chip?
-                val checkedChipText = checkedChip?.text?.toString() ?: ""
-                if (checkedChipText.isNotEmpty()) {
-                    tempFilter = tempFilter.copy(age = checkedChipText)
-                    _filter.value = tempFilter
+                val checkedChipText = checkedChip?.text?.toString()
+                tempFilter = when(typeField) {
+                    AGE_FIELD -> tempFilter.copy(age = checkedChipText?.let { parseToAge(it) })
+                    GENDER_FIELD -> tempFilter.copy(gender = checkedChipText?.let { parseToGender(it) })
+                    PET_TYPE_FIELD -> tempFilter.copy(petType = checkedChipText?.let { parseToPetType(it) })
+                    else -> tempFilter
                 }
             }
         }
@@ -129,10 +127,7 @@ class FilterViewModel(
         viewModelScope.launch {
             withContext(main) {
                 val characteristic = checkedChipsTexts(chipGroup, ids)
-                if (characteristic.isNotEmpty()) {
-                    tempFilter = tempFilter.copy(characteristics = characteristic)
-                    _filter.value = tempFilter
-                }
+                tempFilter = tempFilter.copy(characteristics = characteristic.ifEmpty { null })
             }
         }
     }
@@ -143,7 +138,7 @@ class FilterViewModel(
             .map { (it as Chip).text.toString().parseToCharacteristic(chipGroup.context) }
             .toList()
 
-    private fun String.parseToCharacteristic(context: Context) = when(this) {
+    private fun String.parseToCharacteristic(context: Context) = when (this) {
         context.getString(R.string.ru_vaccinated) -> context.getString(R.string.vaccinated)
         context.getString(R.string.ru_accustomed_tray) -> context.getString(R.string.accustomed_tray)
         context.getString(R.string.ru_sterilised) -> context.getString(R.string.sterilized)
@@ -151,24 +146,59 @@ class FilterViewModel(
         else -> ""
     }
 
-    private fun String.parseToAge(context: Context) = when(this) {
-        context.getString(R.string.baby) -> context.getString(R.string.baby_eng)
-        context.getString(R.string.young) -> context.getString(R.string.young_eng)
-        context.getString(R.string.adult) -> context.getString(R.string.adult_eng)
-        context.getString(R.string.elderly) -> context.getString(R.string.elderly_eng)
-        else -> ""
-    }
-
-
     fun applyFilter() {
         viewModelScope.launch {
-            withContext(main) {
-                val filterAction =
-                    _filter.value?.let {
-                        FilterPetFragmentDirections.actionFilterMenuItemToNavigationHome(it)
-                    }
-                commands.value = OpenFragment(directions = filterAction)
+            content.value = UiState.Loading
+            withContext(io) {
+                currentContent =
+                    currentContent.copy(filter = tempFilter, userArea = tempFilter.area.title)
+                val saveArea = async { areaDataStoreUseCase.saveUserArea(tempFilter.area) }.await()
+                val saveFilter =
+                    async { filterDataStoreUseCase.savePetFilter(tempFilter.toSaveFilter()) }.await()
+                if (saveArea is ResponseState.Success && saveFilter is ResponseState.Success)
+                    handleSuccessSave()
+                else
+                    handleError(resourcesProvider.getString(R.string.error_data_filling))
             }
         }
+    }
+
+    private fun handleSuccessSave() {
+        viewModelScope.launch {
+            withContext(main) {
+                commands.value =
+                    OpenFragment(actionId = R.id.action_filterMenuItem_to_navigation_home)
+            }
+        }
+    }
+
+    private fun parseToPetType(type: String): PetType? =
+        when (type) {
+            resourcesProvider.getString(R.string.cats) -> PetType.CAT
+            resourcesProvider.getString(R.string.dogs) -> PetType.DOG
+            else -> null
+        }
+
+    private fun parseToGender(gender: String): String? =
+        when (gender) {
+            resourcesProvider.getString(R.string.boys) -> resourcesProvider.getString(R.string.male)
+            resourcesProvider.getString(R.string.girls) -> resourcesProvider.getString(R.string.female)
+            else -> null
+        }
+
+    private fun parseToAge(age: String): Age? = when (age) {
+        resourcesProvider.getString(R.string.baby) -> Age.BABY
+        resourcesProvider.getString(R.string.young) -> Age.YOUNG
+        resourcesProvider.getString(R.string.adult) -> Age.ADULT
+        resourcesProvider.getString(R.string.elderly) -> Age.ELDERLY
+        else -> null
+    }
+
+    companion object {
+        private const val AREA_ID_DEFAULT = 0
+        const val AGE_FIELD = "age"
+        const val GENDER_FIELD = "gender"
+        const val PET_TYPE_FIELD = "petType"
+
     }
 }

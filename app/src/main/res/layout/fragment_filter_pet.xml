@@ -22,9 +22,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/searchAreaLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="@string/area"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -37,8 +38,11 @@
                     android:id="@+id/searchAreaField"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:minHeight="40dp"
+                    android:hint="@string/area"
                     android:completionThreshold="2"
                     tools:ignore="LabelFor,RtlSymmetry"
+                    android:textColor="@color/black"
                     android:paddingStart="16dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -55,36 +59,36 @@
                 app:layout_constraintStart_toStartOf="@+id/searchAreaLayout"
                 app:layout_constraintTop_toBottomOf="@id/searchAreaLayout" />
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
+            <com.google.android.material.chip.ChipGroup
                 android:id="@+id/petTypeToggles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/petTitle"
-                android:weightSum="2"
-                app:singleSelection="true">
+                app:singleSelection="true"
+                app:singleLine="true"
+                app:chipSpacingHorizontal="40dp"
+                android:foregroundGravity="center_horizontal">
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.chip.Chip
                     android:id="@+id/catToggle"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/FilterToggleButton"
-                    app:icon="@drawable/ic_cat"
                     android:text="@string/cats"
-                    android:textColor="@color/black"
-                    android:layout_weight="1"/>
+                    app:chipIcon="@drawable/ic_cat"
+                    app:chipIconVisible="true"
+                    />
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.chip.Chip
                     android:id="@+id/dogToggle"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/FilterToggleButton"
-                    app:icon="@drawable/ic_dog"
                     android:text="@string/dogs"
-                    android:textColor="@color/black"
-                    android:layout_weight="1"
-                    android:layout_marginTop="16dp"/>
+                    app:chipIcon="@drawable/ic_dog"
+                    app:chipIconVisible="true"/>
 
-            </com.google.android.material.button.MaterialButtonToggleGroup>
+            </com.google.android.material.chip.ChipGroup>
 
             <TextView
                 android:id="@+id/maleTitle"
@@ -98,39 +102,36 @@
                 app:layout_constraintStart_toStartOf="@+id/petTypeToggles"
                 app:layout_constraintTop_toBottomOf="@+id/petTypeToggles" />
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
+            <com.google.android.material.chip.ChipGroup
                 android:id="@+id/maleToggles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/maleTitle"
                 android:layout_marginTop="16dp"
-                app:singleSelection="true">
+                app:singleSelection="true"
+                app:singleLine="true"
+                app:chipSpacingHorizontal="40dp">
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.chip.Chip
                     android:id="@+id/maleToggle"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/FilterToggleButton"
-                    app:icon="@drawable/img_male"
-                    app:iconSize="40dp"
-                    app:iconTint="@color/king_blue"
                     android:text="@string/boys"
-                    android:textColor="@color/black"
-                    android:layout_weight="1" />
+                    app:chipIcon="@drawable/img_male"
+                    app:chipIconVisible="true"
+                    />
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.chip.Chip
                     android:id="@+id/femaleToggle"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/FilterToggleButton"
-                    app:icon="@drawable/ic_female"
-                    app:iconSize="40dp"
-                    app:iconTint="@color/deep_pink"
                     android:text="@string/girls"
-                    android:textColor="@color/black"
-                    android:layout_weight="1" />
+                    app:chipIcon="@drawable/ic_female"
+                    app:chipIconVisible="true"/>
 
-            </com.google.android.material.button.MaterialButtonToggleGroup>
+            </com.google.android.material.chip.ChipGroup>
 
             <TextView
                 android:id="@+id/ageTitle"
@@ -156,6 +157,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/babyChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/baby"
@@ -164,6 +166,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/youngChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/young"
@@ -172,6 +175,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/adultChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/adult"
@@ -180,6 +184,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/elderlyChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/elderly"
@@ -212,6 +217,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/sterilizedChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
@@ -220,6 +226,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/accustomedTrayChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
@@ -228,6 +235,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/vaccinatedChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
@@ -236,6 +244,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/friendlyChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"

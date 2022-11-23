@@ -1,6 +1,7 @@
 package epic.legofullstack.fourpaws.feature.home.data.repository
 
-import android.util.Log
+import epic.legofullstack.fourpaws.core.data.model.PetFilterDto
+import epic.legofullstack.fourpaws.feature.home.data.mapper.toHome
 import epic.legofullstack.fourpaws.feature.home.data.model.HomePetDto
 import epic.legofullstack.fourpaws.feature.home.data.storage.HomePageDataSource
 import epic.legofullstack.fourpaws.feature.home.domain.repository.PetsRepository
@@ -17,4 +18,7 @@ class PetsRepositoryImpl(
 ) : PetsRepository {
     override suspend fun getAllPets(areaId: Int): List<HomePetDto> =
         localDataSource.getPetsByArea(areaId)
+
+    override suspend fun getPetsByFilter(filter: PetFilterDto): List<HomePetDto> =
+        localDataSource.getPetsByFilter(filter.area.id, filter).map { it.toHome() }
 }
