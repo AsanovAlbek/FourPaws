@@ -4,37 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_smoke"
-    android:paddingBottom="@dimen/list_padding"
+    android:layout_marginBottom="108dp"
     >
-
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--            android:id="@+id/img_bar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"-->
-<!--            android:fitsSystemWindows="true">-->
-
-<!--            <com.google.android.material.appbar.CollapsingToolbarLayout-->
-<!--                android:id="@+id/CollapsingToolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fitsSystemWindows="true"-->
-<!--                app:contentScrim="?attr/colorPrimary"-->
-<!--                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"-->
-<!--                app:expandedTitleMarginStart="48dp"-->
-<!--                app:expandedTitleMarginEnd="64dp"-->
-<!--                >-->
-
-<!--            <androidx.viewpager2.widget.ViewPager2-->
-<!--                android:id="@+id/petPhotosViewPager"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="200dp"-->
-<!--                android:background="@color/white"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            </com.google.android.material.appbar.CollapsingToolbarLayout>-->
-<!--        </com.google.android.material.appbar.AppBarLayout>-->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -259,8 +230,7 @@
                         app:cardCornerRadius="@dimen/margin_8"
                         app:cardElevation="8dp"
                         app:contentPadding="16dp"
-                        app:strokeColor="@color/black"
-                        android:text="Длииииииииииииииииииииииииииииннный Текст\nПрям ооооооооооооооооооооочень" />
+                        app:strokeColor="@color/black"/>
 
                 </com.google.android.material.card.MaterialCardView>
 
