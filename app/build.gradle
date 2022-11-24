@@ -8,6 +8,8 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+apply plugin: 'kotlin-parcelize'
+
 android {
     compileSdk 32
 

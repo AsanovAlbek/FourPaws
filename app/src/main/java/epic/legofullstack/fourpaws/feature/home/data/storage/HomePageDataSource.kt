@@ -1,9 +1,11 @@
 package epic.legofullstack.fourpaws.feature.home.data.storage
 
+import epic.legofullstack.fourpaws.core.data.model.PetFilterDto
 import epic.legofullstack.fourpaws.feature.home.data.mapper.toHome
 import epic.legofullstack.fourpaws.feature.home.data.model.HomePetDto
 import epic.legofullstack.fourpaws.network.firebase.data.FirebaseDataSource
 import epic.legofullstack.fourpaws.network.firebase.data.model.PetDto
+import epic.legofullstack.fourpaws.network.firebase.data.model.PetPreviewDto
 
 /**
  * Класс для работы с внутренним хранилищем данных
@@ -22,9 +24,11 @@ class HomePageDataSource(
             resultClassName = PetDto::class.java,
         ).map { it.toHome() }
 
-
     companion object {
         private const val FIELD_AREA_ID = "areaId"
         private const val PET_COLLECTION = "pet"
     }
+
+    suspend fun getPetsByFilter(areaId: Int, petFilter: PetFilterDto): List<PetPreviewDto> =
+        remoteSource.petFilter(areaId = areaId, filter = petFilter)
 }
