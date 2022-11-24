@@ -15,10 +15,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_pet_card"
-        android:layout_marginStart="@dimen/pets_list_margin"
-        android:layout_marginEnd="@dimen/pets_list_margin"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_8"
         android:paddingBottom="@dimen/list_padding"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <include
         android:id="@+id/errorPanel"
@@ -37,6 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

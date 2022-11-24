@@ -68,6 +68,7 @@ class MainFragment :
             menu.findItem(R.id.mapMenuItem).isVisible = mapVisible
             if (backButtonVisible) {
                 setNavigationIcon(R.drawable.ic_arrow_back)
+                setNavigationIconTint(requireActivity().getColor(R.color.white))
                 setNavigationOnClickListener {
                     fragmentNavController().navigateUp()
                 }

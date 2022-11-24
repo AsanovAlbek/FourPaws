@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import epic.legofullstack.fourpaws.R
 import epic.legofullstack.fourpaws.databinding.ItemPetCardBinding
 import epic.legofullstack.fourpaws.feature.favorites.domain.model.FavoritePet
+import epic.legofullstack.fourpaws.feature.home.presentation.adapter.HomePagePetListAdapter
 
 class FavoritePetsAdapter(
     private val favoritePets : MutableList<FavoritePet>,
@@ -38,13 +39,17 @@ class FavoritePetsAdapter(
         }
 
         private fun setGenderIcon(pet: FavoritePet) {
-            bindItem.maleChip.setChipIconResource(
+            bindItem.maleChip.apply {
                 if (pet.gender == MALE) {
-                    R.drawable.ic_male
+                    setText(R.string.boy)
+                    setChipIconResource(R.drawable.ic_male)
+                    setChipBackgroundColorResource(R.color.blue)
                 } else {
-                    R.drawable.ic_female
+                    setText(R.string.girl)
+                    setChipIconResource(R.drawable.ic_female)
+                    setChipBackgroundColorResource(R.color.pink)
                 }
-            )
+            }
         }
     }
 

@@ -24,58 +24,80 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
+        android:visibility="gone"
         />
 
     <LinearLayout
-        android:id="@+id/choose_area_layout"
+        android:id="@+id/chooseAreaLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
+        android:gravity="center"
+        android:paddingBottom="50dp"
         android:orientation="vertical"
-        android:visibility="gone"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/localeTitle"
             android:layout_width="match_parent"
             android:layout_height="117dp"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|center"
             android:padding="8dp"
             android:text="@string/location_description"
-            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="125dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView_user_area"
-                android:layout_width="304dp"
-                android:layout_height="65dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Design.TextInputLayout"
                 android:layout_weight="1"
-                android:completionThreshold="2"
-                android:hint="@string/region" />
+                android:hint="@string/region">
 
-            <ImageButton
-                android:id="@+id/button_init_location"
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_weight="0"
-                android:src="@drawable/img_location" />
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewUserArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:completionThreshold="2" />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button_choose_area"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonChooseArea"
             android:layout_width="250dp"
             android:layout_height="58dp"
             android:layout_gravity="center"
             android:enabled="false"
-            android:text="@string/choose_area_title" />
+            android:text="@string/choose_area_title"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_8"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonInitLocation"
+            style="@style/ThemeOverlay.Material3.Button.ElevatedButton"
+            android:layout_width="250dp"
+            android:layout_height="58dp"
+            app:cornerRadius="@dimen/margin_8"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:text="@string/get_my_location"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 

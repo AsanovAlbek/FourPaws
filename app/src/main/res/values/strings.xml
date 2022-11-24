@@ -75,6 +75,10 @@
     <string name="share_choose_title">с кем поделиться</string>
     <string name="not_possible_share">Не возможно поделиться</string>
     <string name="url_pet_detail">https://epic.fourpaws.ru/petdetail/%1$d</string>
+    <string name="boy">Мальчик</string>
+    <string name="girl">Девочка</string>
+    <string name="get_my_location">Определить моё местоположение</string>
+    <string name="or">Или</string>
 
 
 </resources>

@@ -41,13 +41,17 @@ class HomePagePetListAdapter(
         }
 
         private fun setGenderIcon(pet: Pet) {
-            binding.maleChip.setChipIconResource(
+            binding.maleChip.apply {
                 if (pet.gender == MALE) {
-                    R.drawable.ic_male
+                    setText(R.string.boy)
+                    setChipIconResource(R.drawable.ic_male)
+                    setChipBackgroundColorResource(R.color.blue)
                 } else {
-                    R.drawable.ic_female
+                    setText(R.string.girl)
+                    setChipIconResource(R.drawable.ic_female)
+                    setChipBackgroundColorResource(R.color.pink)
                 }
-            )
+            }
         }
     }
 
