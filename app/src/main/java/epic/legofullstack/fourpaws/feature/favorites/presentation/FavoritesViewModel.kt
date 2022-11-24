@@ -51,16 +51,7 @@ class FavoritesViewModel @Inject constructor(
 
     private suspend fun handleContent(list: List<FavoritePet>) {
         withContext(mainDispatcher) {
-            if (list.isEmpty()) {
-                commands.value = ShowDialog(
-                    title = resourcesProvider.getString(R.string.is_empty_yet),
-                    message = resourcesProvider.getString(R.string.is_empty_message),
-                    positiveButtonText = resourcesProvider.getString(R.string.ok),
-                    callbackPositiveButton = { commands.value = NavigateUp() }
-                )
-            } else {
                 content.value = FavoriteState.Content(pets = list)
-            }
         }
     }
 
