@@ -18,7 +18,7 @@ class LocationRepository @Inject constructor(
         withContext(ioDispatcher) {
             val lastLocation = locationHandler.getLastLocation()
             if (lastLocation != null) {
-                 geocoderHandler.getAddressByGeoLocation(location = lastLocation)?.first()?.subAdminArea
+                 geocoderHandler.getAddressByGeoLocation(location = lastLocation)?.first()?.adminArea
             } else {
                 geocoderHandler.getAddressByGeoLocation(locationHandler.getCurrentLocation())?.filterNotNull()?.first()?.subAdminArea
             }

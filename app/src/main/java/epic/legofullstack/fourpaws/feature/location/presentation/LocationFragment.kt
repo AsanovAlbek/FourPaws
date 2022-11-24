@@ -2,7 +2,12 @@ package epic.legofullstack.fourpaws.feature.location.presentation
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
@@ -94,15 +99,38 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
     @SuppressLint("MissingPermission")
     fun initUserArea() {
-        // todo проверить включен ли gps
-        val granted = TedPermissionUtil.isGranted(*PERMISSIONS)
-        if (granted) {
-            viewModel.initUserArea()
+        if(!checkGPS()) {
+            viewModel.commands.value = ShowDialog(
+                getString(R.string.gps),
+                getString(R.string.inable_gps),
+                getString(R.string.ok),
+                { startActivity(Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS)) },
+                true
+            )
         } else {
-            val deniedPermissions = TedPermissionUtil.getDeniedPermissions(*PERMISSIONS)
-            viewModel.getPermission(*deniedPermissions.toTypedArray())
+            val granted = TedPermissionUtil.isGranted(*PERMISSIONS)
+            if (granted) {
+                viewModel.initUserArea()
+            } else {
+                val deniedPermissions = TedPermissionUtil.getDeniedPermissions(*PERMISSIONS)
+                viewModel.getPermission(*deniedPermissions.toTypedArray())
+            }
         }
     }
+
+    fun checkGPS(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // This is a new method provided in API 28
+            val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            lm.isLocationEnabled
+        } else {
+            // This was deprecated in API 28
+            val mode = Settings.Secure.getInt(requireContext().contentResolver,
+                Settings.Secure.LOCATION_MODE,
+                Settings.Secure.LOCATION_MODE_OFF
+            )
+            mode != Settings.Secure.LOCATION_MODE_OFF
+        }
 
     override fun onDestroy() {
         viewModel.cancelTokenSource()

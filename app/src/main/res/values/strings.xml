@@ -75,7 +75,7 @@
     <string name="open_map_item_menu">Открыть карту</string>
     <string name="copy_item_menu">Скопировать адрес</string>
     <string name="copied">Скопировано</string>
-    <string name="error_loading_areas">Не удалось загрузить список областей</string>
+    <string name="error_loading_areas">Не удалось загрузить список областей. Проверьте подключение к интеренту</string>
     <string name="message_setup_email">Установите почтовый клиент</string>
     <string name="share_choose_title">с кем поделиться</string>
     <string name="not_possible_share">Не возможно поделиться</string>
@@ -99,5 +99,7 @@
     <string name="dog">DOG</string>
     <string name="error_reading_data">ошибка чтения данных</string>
     <string name="error_data_filling">ошибка данных фильтра</string>
+    <string name="gps">GPS</string>
+    <string name="inable_gps">Включить геолокацию</string>
 
 </resources>
