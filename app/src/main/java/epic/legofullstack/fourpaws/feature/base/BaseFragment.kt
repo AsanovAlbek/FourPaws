@@ -71,9 +71,11 @@ open class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
     }
 
     private fun startActivityForMap(longitude: Float, latitude: Float) {
+//         todo решить проблему подставления значений из ресурсов, проблема что для float подставляется с запятой
+//            Uri.parse(getString(R.string.uri_geo, latitude, longitude))
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(getString(R.string.uri_geo, latitude, longitude))
+            Uri.parse("geo:0,0?q=$latitude,$longitude")
         )
         intent.setPackage(getString(R.string.package_maps))
         if (intent.isIntentSafeAndReady()) {

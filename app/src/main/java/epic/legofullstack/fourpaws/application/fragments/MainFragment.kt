@@ -30,6 +30,7 @@ class MainFragment :
                     R.id.navigation_home -> {
                         mainToolbar.navigationIcon = null
                         mainToolbar.refreshMenu(R.menu.home_toolbar_menu)
+                        refreshToolbar(filterVisible = true, mapVisible = true)
                     }
                     R.id.mapMenuItem -> refreshToolbar(filterVisible = true, backButtonVisible = true)
                     R.id.filterMenuItem -> refreshToolbar(backButtonVisible = true)
@@ -47,7 +48,6 @@ class MainFragment :
                 true
             }
             R.id.filterMenuItem -> {
-                // todo переход в фильтр
                 if (fragmentNavController().currentDestination?.id == R.id.navigation_home) {
                     fragmentNavController().navigateSafely(R.id.action_navigation_home_to_filterPetFragment)
                 } else {

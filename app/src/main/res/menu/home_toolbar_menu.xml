@@ -4,14 +4,16 @@
 
     <item
         android:id="@+id/mapMenuItem"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_map"
-        android:title="@string/shelters" />
+        android:title="@string/shelters"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/filterMenuItem"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_filter"
-        android:title="@string/filter" />
+        android:title="@string/filter"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
 </menu>

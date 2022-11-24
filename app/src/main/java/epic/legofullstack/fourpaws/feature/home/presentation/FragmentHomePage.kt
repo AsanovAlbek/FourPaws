@@ -1,7 +1,6 @@
 package epic.legofullstack.fourpaws.feature.home.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -42,8 +41,12 @@ class FragmentHomePage : BaseFragment(R.layout.fragment_home_page) {
     }
 
     private fun UiState.Content.contentHandle() {
-        setPetsList(pets)
-        petsHomePageAdapter.refreshPets(pets)
+        if (pets.isEmpty()) {
+            homeBinding.textViewEmptyList.isVisible = true
+        } else {
+            setPetsList(pets)
+            petsHomePageAdapter.refreshPets(pets)
+        }
     }
 
     private fun UiState.Error.errorHandle() {

@@ -101,5 +101,6 @@
     <string name="error_data_filling">ошибка данных фильтра</string>
     <string name="gps">GPS</string>
     <string name="inable_gps">Включить геолокацию</string>
+    <string name="empty_list">Список питомцев пуст</string>
 
 </resources>
