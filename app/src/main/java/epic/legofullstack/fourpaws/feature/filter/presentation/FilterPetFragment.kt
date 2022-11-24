@@ -1,8 +1,10 @@
 package epic.legofullstack.fourpaws.feature.filter.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -105,8 +107,15 @@ class FilterPetFragment : BaseFragment(R.layout.fragment_filter_pet) {
                 val currentArea = adapterView.adapter.getItem(position) as Area
                 filterViewModel.setArea(currentArea)
                 searchAreaField.setText(currentArea.title)
+                hideKeyboard()
             }
         }
+    }
+
+    private fun hideKeyboard() {
+        val inputService =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputService.hideSoftInputFromWindow(bindingFilter.searchAreaField.windowToken, 0)
     }
 
     private fun chipsChangeListener(chipGroup: ChipGroup, checkedChipsIds: MutableList<Int>) {
