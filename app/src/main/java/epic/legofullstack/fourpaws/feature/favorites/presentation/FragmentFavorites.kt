@@ -42,8 +42,12 @@ class FragmentFavorites : BaseFragment(R.layout.fragment_favorites) {
     }
 
     private fun FavoriteState.Content.handleContent() {
-        setAdapter(pets = pets)
-        favoritesAdapter.refreshFavorites(pets)
+        if (pets.isEmpty()) {
+            favoritesBinding.textViewEmptyList.isVisible = true
+        } else {
+            setAdapter(pets = pets)
+            favoritesAdapter.refreshFavorites(pets)
+        }
     }
 
     private fun FavoriteState.Error.handleError() {

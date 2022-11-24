@@ -18,7 +18,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="60dp">
+            android:layout_marginBottom="60dp"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/searchAreaLayout"
@@ -61,13 +62,16 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/petTypeToggles"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/petTitle"
-                app:singleSelection="true"
-                app:singleLine="true"
+                android:foregroundGravity="center_horizontal"
                 app:chipSpacingHorizontal="40dp"
-                android:foregroundGravity="center_horizontal">
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/petTitle"
+                app:layout_constraintStart_toStartOf="@+id/petTitle"
+                app:layout_constraintTop_toBottomOf="@+id/petTitle"
+                app:singleLine="true"
+                app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/catToggle"
@@ -76,8 +80,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/cats"
                     app:chipIcon="@drawable/ic_cat"
-                    app:chipIconVisible="true"
-                    />
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/dogToggle"
@@ -86,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/dogs"
                     app:chipIcon="@drawable/ic_dog"
-                    app:chipIconVisible="true"/>
+                    app:chipIconVisible="true" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -104,13 +107,15 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/maleToggles"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/maleTitle"
                 android:layout_marginTop="16dp"
-                app:singleSelection="true"
+                app:chipSpacingHorizontal="40dp"
+                app:layout_constraintEnd_toEndOf="@+id/maleTitle"
+                app:layout_constraintTop_toBottomOf="@id/maleTitle"
+                app:layout_constraintStart_toStartOf="@id/maleTitle"
                 app:singleLine="true"
-                app:chipSpacingHorizontal="40dp">
+                app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/maleToggle"
@@ -119,8 +124,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/boys"
                     app:chipIcon="@drawable/img_male"
-                    app:chipIconVisible="true"
-                    />
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/femaleToggle"
@@ -129,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/girls"
                     app:chipIcon="@drawable/ic_female"
-                    app:chipIconVisible="true"/>
+                    app:chipIconVisible="true" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -147,49 +151,45 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/ageChipGroup"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf ="parent"
                 app:layout_constraintTop_toBottomOf="@id/ageTitle"
-                app:singleSelection="true"
-                android:padding="@dimen/margin_8">
+                android:layout_marginTop="16dp"
+                app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/babyChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/baby"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_done" />
+                    android:checkable="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/youngChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/young"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_done"/>
+                    android:checkable="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/adultChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/adult"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_done"/>
+                    android:checkable="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/elderlyChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/elderly"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_done"/>
+                    android:checkable="true" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -207,49 +207,45 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/othersChipGroup"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/othersTitle"
+                app:layout_constraintStart_toStartOf="@+id/othersTitle"
                 app:layout_constraintTop_toBottomOf="@id/othersTitle"
                 app:singleSelection="false">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/sterilizedChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="@string/ru_sterilised"
-                    app:checkedIcon="@drawable/ic_done" />
+                    android:text="@string/ru_sterilised" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/accustomedTrayChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="@string/ru_accustomed_tray"
-                    app:checkedIcon="@drawable/ic_done" />
+                    android:text="@string/ru_accustomed_tray" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/vaccinatedChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="@string/ru_vaccinated"
-                    app:checkedIcon="@drawable/ic_done" />
+                    android:text="@string/ru_vaccinated" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/friendlyChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="@string/ru_friendly"
-                    app:checkedIcon="@drawable/ic_done" />
+                    android:text="@string/ru_friendly" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -268,10 +264,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
     </FrameLayout>
-
-
-
 </androidx.core.widget.NestedScrollView>

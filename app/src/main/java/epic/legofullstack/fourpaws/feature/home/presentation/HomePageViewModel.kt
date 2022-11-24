@@ -50,13 +50,13 @@ class HomePageViewModel @Inject constructor(
                 if (userArea is ResponseState.Success && filterPet is ResponseState.Success) {
                     if (filterPet.data.area.id != 0) {
                         petFilterUseCase(filterPet.data).handleResult(
-                            { error -> handleError(error) },
-                            { handleSuccess(it, true) }
+                            onError = { error -> handleError(error) },
+                            onSuccess = { handleSuccess(it, true) }
                         )
                     } else {
                         getAllPetsUseCase(userArea.data.id).handleResult(
-                            { error -> handleError(error) },
-                            { handleSuccess(it) })
+                            onError = { error -> handleError(error) },
+                            onSuccess = { handleSuccess(it) })
                     }
                 } else {
                     handleError(false)
